@@ -27,14 +27,21 @@ class ErrorBoundary extends Component {
   }
 }
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ErrorBoundary>
-      <HashRouter>
-        <ProgressProvider>
-          <App />
-        </ProgressProvider>
-      </HashRouter>
-    </ErrorBoundary>
-  </StrictMode>
-);
+try {
+  const root = document.getElementById('root');
+  root.innerHTML = '<p style="padding:2rem;font-size:1.5rem;">Loading app...</p>';
+  createRoot(root).render(
+    <StrictMode>
+      <ErrorBoundary>
+        <HashRouter>
+          <ProgressProvider>
+            <App />
+          </ProgressProvider>
+        </HashRouter>
+      </ErrorBoundary>
+    </StrictMode>
+  );
+} catch (e) {
+  document.getElementById('root').innerHTML =
+    '<pre style="padding:2rem;color:red;">' + e.message + '\n' + e.stack + '</pre>';
+}
