@@ -348,13 +348,13 @@ PARALLEL_MAKE ?= "-j 8"
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
 
 # Download directory (where sources are cached)
-DL_DIR ?= "${TOPDIR}/downloads"
+DL_DIR ?= "\${TOPDIR}/downloads"
 
 # Shared state directory
-SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
+SSTATE_DIR ?= "\${TOPDIR}/sstate-cache"
 
 # Temporary build directory
-TMPDIR = "${TOPDIR}/tmp"
+TMPDIR = "\${TOPDIR}/tmp"
 \`\`\`
 
 ## conf/bblayers.conf
