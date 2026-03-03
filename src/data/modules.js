@@ -2,7 +2,7 @@ const modules = [
   {
     id: 'introduction',
     title: 'Introduction to Yocto',
-    description: 'Learn what the Yocto Project is, its history, and why it matters for embedded Linux development.',
+    description: 'Learn what the Yocto Project is, its core concepts, and essential terminology.',
     icon: '📖',
     lessons: [
       {
@@ -11,22 +11,37 @@ const modules = [
         content: `
 # What is the Yocto Project?
 
-The **Yocto Project** is an open-source collaboration project that provides templates, tools, and methods to help you create custom Linux-based systems for embedded and IoT products, regardless of the hardware architecture.
+The **Yocto Project** is an open-source collaboration project hosted by the **Linux Foundation** since 2010, managed by Richard Purdie. It provides templates, tools, and methods to help you create custom Linux-based systems for embedded and IoT products, regardless of hardware architecture.
 
-## Key Points
+> **Important:** Yocto is **NOT** a Linux distribution — it *creates* custom ones.
 
-- It is **not** a Linux distribution — it creates a custom one for you
-- Hosted by the **Linux Foundation**
-- Started in 2010, combining several existing projects
-- Used by major companies like Intel, AMD, Texas Instruments, and many others
+## Approaches to Embedded Linux
+
+| Approach | Pros | Cons |
+|----------|------|------|
+| **Build manually** | Full flexibility | Dependency hell, not reproducible |
+| **Binary distro** (Debian, Ubuntu) | Easy to create | Hard to customize/optimize, large, native compilation (slow) |
+| **Build systems** (Yocto, Buildroot) | Nearly full flexibility, reproducible, cross-compilation | Build time, learning curve |
+
+## Yocto's Key Principle
+
+Yocto **always builds binary packages** (rpm, deb, or ipk) first, then generates the root filesystem from that package feed.
+
+## Yocto vs Buildroot
+
+| Aspect | Yocto | Buildroot |
+|--------|-------|-----------|
+| Output | Complete distribution with binary packages | Root filesystem image only |
+| Complexity | Powerful but steep learning curve | Much simpler |
+| Package management | Yes (rpm, deb, ipk) | No |
 
 ## What Yocto Provides
 
-1. **Poky** — the reference build system (includes BitBake + OpenEmbedded-Core)
-2. **BitBake** — the task execution engine (similar to Make but more powerful)
-3. **OpenEmbedded-Core (OE-Core)** — the core set of metadata (recipes and classes)
-4. **Board Support Packages (BSPs)** — hardware-specific configurations
-5. **Documentation** — comprehensive guides and manuals
+1. **Poky** — the reference build system (BitBake + OpenEmbedded-Core)
+2. **BitBake** — the task execution engine
+3. **OpenEmbedded-Core (OE-Core)** — the core metadata
+4. **Board Support Packages (BSPs)** — hardware configurations
+5. **Documentation** — comprehensive guides
 
 ## Why Use Yocto?
 
@@ -34,51 +49,56 @@ The **Yocto Project** is an open-source collaboration project that provides temp
 |---------|-------------|
 | **Customization** | Build exactly what you need — no bloat |
 | **Reproducibility** | Same inputs always produce the same outputs |
-| **Cross-platform** | Supports ARM, x86, MIPS, PowerPC, and more |
-| **Industry standard** | Widely adopted in automotive, industrial, and consumer electronics |
+| **Cross-platform** | ARM, x86, MIPS, PowerPC, RISC-V and more |
+| **Industry standard** | Automotive, industrial, consumer electronics |
 | **Community** | Large ecosystem of layers and recipes |
 
-## The Build Process at a Glance
-
 \`\`\`
-Source Code + Metadata (Recipes) → BitBake → Custom Linux Image
+Source Code + Metadata (Recipes) -> BitBake -> Binary Packages -> Root Filesystem Image
 \`\`\`
-
-Yocto takes your configuration, fetches source code, patches it, compiles it, and packages everything into a bootable Linux image tailored to your target hardware.
         `,
         quiz: [
           {
             question: 'What is the Yocto Project?',
-            options: [
-              'A Linux distribution',
-              'A tool to create custom Linux-based systems',
-              'A hardware manufacturer',
-              'A programming language',
-            ],
+            options: ['A Linux distribution', 'A tool to create custom Linux-based systems', 'A hardware manufacturer', 'A programming language'],
             correct: 1,
-            explanation: 'The Yocto Project is not a distribution itself — it provides tools and templates to create custom Linux-based systems for embedded products.',
+            explanation: 'The Yocto Project is not a distribution itself — it provides tools to create custom Linux-based systems.',
           },
           {
             question: 'What is BitBake?',
-            options: [
-              'A web framework',
-              'A Linux kernel module',
-              'The task execution engine used by Yocto',
-              'A package manager like apt',
-            ],
+            options: ['A web framework', 'A Linux kernel module', 'The task execution engine used by Yocto', 'A package manager like apt'],
             correct: 2,
-            explanation: 'BitBake is the task execution engine at the heart of the Yocto build system. It processes recipes and executes build tasks.',
+            explanation: 'BitBake is the task execution engine that processes recipes and executes build tasks.',
           },
           {
             question: 'Which organization hosts the Yocto Project?',
-            options: [
-              'Apache Foundation',
-              'Linux Foundation',
-              'Mozilla Foundation',
-              'Free Software Foundation',
-            ],
+            options: ['Apache Foundation', 'Linux Foundation', 'Mozilla Foundation', 'Free Software Foundation'],
             correct: 1,
-            explanation: 'The Yocto Project is hosted by the Linux Foundation.',
+            explanation: 'The Yocto Project is hosted by the Linux Foundation since 2010.',
+          },
+          {
+            question: 'What is the key difference between Yocto and Buildroot?',
+            options: ['Yocto is newer than Buildroot', 'Yocto builds binary packages while Buildroot builds filesystem images directly', 'Yocto only supports ARM', 'Buildroot is proprietary'],
+            correct: 1,
+            explanation: 'Yocto builds a complete distribution with binary packages, while Buildroot generates a root filesystem image without packages.',
+          },
+          {
+            question: 'What is a major disadvantage of using a binary distribution for embedded Linux?',
+            options: ['Lacks package management', 'Hard to customize and optimize for size/boot time', 'No kernel support', 'Only supports x86'],
+            correct: 1,
+            explanation: 'Binary distributions are hard to customize for embedded — they produce large images and use slow native compilation.',
+          },
+          {
+            question: 'What does cross-compilation provide in build systems like Yocto?',
+            options: ['Smaller binaries', 'Better security', 'Faster builds by leveraging powerful build machines', 'Simpler configuration'],
+            correct: 2,
+            explanation: 'Cross-compilation builds software on a powerful host for a different target architecture, much faster than native compilation.',
+          },
+          {
+            question: "What is Yocto's fundamental build principle?",
+            options: ['It copies prebuilt binaries', 'It always builds binary packages first, then generates the root filesystem', 'It compiles natively on the target', 'It uses containers for isolation'],
+            correct: 1,
+            explanation: 'Yocto always builds binary packages first, then generates the final root filesystem from that package feed.',
           },
         ],
       },
@@ -88,70 +108,44 @@ Yocto takes your configuration, fetches source code, patches it, compiles it, an
         content: `
 # Yocto Core Terminology
 
-Before diving deeper, let's understand the key terms you'll encounter throughout your Yocto journey.
+## Poky — Multiple Meanings
+
+1. **Poky (git repo)** — assembled from bitbake, openembedded-core, yocto-docs, meta-yocto
+2. **poky (distro)** — the reference distribution
+3. **meta-poky (layer)** — the layer providing the poky reference distro
+
+## Poky Source Tree
+
+\`\`\`
+poky/
++-- bitbake/          # Build engine scripts
++-- documentation/    # Documentation sources
++-- meta/             # OpenEmbedded-Core metadata
++-- meta-skeleton/    # Template recipes for BSP/kernel dev
++-- meta-poky/        # Poky reference distro config
++-- meta-yocto-bsp/   # Reference hardware BSP
++-- oe-init-build-env # Setup script (creates build dir)
++-- scripts/          # Development tools
+\`\`\`
 
 ## Essential Terms
 
-### Poky
-The **reference distribution** of the Yocto Project. It includes:
-- BitBake (the build engine)
-- OpenEmbedded-Core (metadata)
-- meta-poky (the distribution configuration)
-- meta-yocto-bsp (reference BSP)
+**Recipe (.bb)** — Instructions for building software. Format: \`<name>_<version>.bb\`
+**Layer** — Collection of recipes/configs, prefixed \`meta-\`
+**Machine** — Target hardware definition
+**Distro** — Software policy configuration
+**Image** — Final root filesystem output
+**Class (.bbclass)** — Reusable build logic
+**Append (.bbappend)** — Modify recipes from other layers
+**Tasks** — Build steps: do_fetch, do_unpack, do_patch, do_configure, do_compile, do_install, do_package
+**Metadata** — Collective input to BitBake: configs, recipes, classes, include files
 
-### Recipe (.bb files)
-A **recipe** is a set of instructions for building a particular piece of software. It tells BitBake:
-- Where to fetch the source code
-- How to configure and compile it
-- How to package the results
-
-\`\`\`bash
-# Example: A simple recipe filename
-myapp_1.0.bb
-\`\`\`
-
-### Layer
-A **layer** is a collection of related recipes, configurations, and classes. Layers allow modular customization.
-
-\`\`\`
-meta-mylayer/
-├── conf/
-│   └── layer.conf
-├── recipes-core/
-│   └── myapp/
-│       └── myapp_1.0.bb
-└── README
-\`\`\`
-
-### Machine
-A **machine** defines the target hardware. It specifies things like:
-- Architecture (ARM, x86, etc.)
-- Kernel configuration
-- Boot loader settings
-
-### Distro (Distribution)
-A **distro** configuration defines the software policies:
-- Which init system to use (systemd, sysvinit)
-- Package format (rpm, deb, ipk)
-- Feature selections
-
-### Image
-An **image** is the final output — a complete root filesystem ready to be flashed onto your target device.
-
-### Class (.bbclass files)
-**Classes** provide reusable build logic that recipes can inherit. Examples:
-- \`autotools.bbclass\` — for Autotools-based projects
-- \`cmake.bbclass\` — for CMake-based projects
-
-### Append Files (.bbappend)
-**Append files** let you modify existing recipes without editing the original. They "append" changes to a recipe from another layer.
-
-## File Extensions Quick Reference
+## File Extensions
 
 | Extension | Purpose |
 |-----------|---------|
 | \`.bb\` | Recipe file |
-| \`.bbappend\` | Recipe append file |
+| \`.bbappend\` | Recipe extension file |
 | \`.bbclass\` | Class file |
 | \`.conf\` | Configuration file |
 | \`.inc\` | Include file (shared recipe content) |
@@ -159,36 +153,45 @@ An **image** is the final output — a complete root filesystem ready to be flas
         quiz: [
           {
             question: 'What is a Yocto recipe (.bb file)?',
-            options: [
-              'A configuration file for the kernel',
-              'Instructions for building a piece of software',
-              'A hardware description',
-              'A test script',
-            ],
+            options: ['A kernel configuration', 'Instructions for building a piece of software', 'A hardware description', 'A test script'],
             correct: 1,
-            explanation: 'A recipe (.bb file) contains instructions that tell BitBake how to fetch, configure, compile, and package a piece of software.',
+            explanation: 'A recipe (.bb file) tells BitBake how to fetch, configure, compile, and package a piece of software.',
           },
           {
             question: 'What is a Yocto layer?',
-            options: [
-              'A single recipe file',
-              'A collection of related recipes and configurations',
-              'A type of filesystem',
-              'A hardware abstraction',
-            ],
+            options: ['A single recipe', 'A collection of related recipes and configurations', 'A filesystem type', 'A hardware abstraction'],
             correct: 1,
-            explanation: 'A layer is a modular collection of related recipes, configurations, and classes that can be added to or removed from your build.',
+            explanation: 'A layer is a modular collection of recipes, configurations, and classes.',
           },
           {
             question: 'What file extension is used for recipe append files?',
-            options: [
-              '.bb',
-              '.conf',
-              '.bbappend',
-              '.bbclass',
-            ],
+            options: ['.bb', '.conf', '.bbappend', '.bbclass'],
             correct: 2,
-            explanation: '.bbappend files are used to modify existing recipes without changing the original recipe file.',
+            explanation: '.bbappend files modify existing recipes without changing the original.',
+          },
+          {
+            question: 'What does oe-init-build-env do?',
+            options: ['Compiles the kernel', 'Sets up the build directory and environment variables', 'Installs packages on the target', 'Creates a recipe'],
+            correct: 1,
+            explanation: 'oe-init-build-env creates the build directory, sets environment variables, and makes BitBake commands available.',
+          },
+          {
+            question: 'Which directory in Poky contains the OpenEmbedded-Core metadata?',
+            options: ['bitbake/', 'meta/', 'meta-poky/', 'scripts/'],
+            correct: 1,
+            explanation: 'The meta/ directory contains the OpenEmbedded-Core metadata.',
+          },
+          {
+            question: 'What is the correct naming format for a recipe file?',
+            options: ['<name>-<version>.bb', '<name>_<version>.bb', '<version>_<name>.bb', '<name>.bb.<version>'],
+            correct: 1,
+            explanation: 'Recipe files use <name>_<version>.bb format, e.g. bash_5.1.bb.',
+          },
+          {
+            question: 'The word "Poky" can refer to which of the following?',
+            options: ['Only the reference distribution', 'Only the git repository', 'A git repository, a reference distro, and a layer', 'Only the build engine'],
+            correct: 2,
+            explanation: 'Poky is a git repo, a reference distro, and meta-poky is the layer providing that distro config.',
           },
         ],
       },
@@ -197,108 +200,90 @@ An **image** is the final output — a complete root filesystem ready to be flas
   {
     id: 'build-system',
     title: 'The Build System',
-    description: 'Understand how BitBake works, the build workflow, and how to configure your first build.',
-    icon: '🔧',
+    description: 'Understand BitBake commands, build configuration, and directory structure.',
+    icon: '⚙️',
     lessons: [
       {
-        id: 'bitbake-basics',
+        id: 'bitbake-fundamentals',
         title: 'BitBake Fundamentals',
         content: `
 # BitBake Fundamentals
 
-**BitBake** is the task scheduler and execution engine at the core of the Yocto build system. Understanding BitBake is essential for working effectively with Yocto.
+**BitBake** is a task scheduler written in Python that parses metadata files to determine what to build.
 
-## How BitBake Works
+## Common Commands
 
-1. **Parse** — Reads all recipes, classes, and configuration files
-2. **Resolve** — Determines dependencies between tasks and recipes
-3. **Execute** — Runs tasks in the correct order, parallelizing where possible
+| Command | Purpose |
+|---------|---------|
+| \`bitbake core-image-minimal\` | Build a minimal image |
+| \`bitbake -c listtasks virtual/kernel\` | List available tasks for kernel |
+| \`bitbake -c menuconfig virtual/kernel\` | Run kernel menuconfig |
+| \`bitbake -f dropbear\` | Force rebuild |
+| \`bitbake -s\` | List all recipes and versions |
+| \`bitbake --runall=fetch core-image-minimal\` | Download all sources |
+| \`bitbake -c devshell <recipe>\` | Open development shell |
 
-## BitBake Tasks
+## bitbake-getvar
 
-Every recipe goes through a standard set of tasks:
-
-\`\`\`
-do_fetch → do_unpack → do_patch → do_configure → do_compile → do_install → do_package
-\`\`\`
-
-| Task | Description |
-|------|-------------|
-| \`do_fetch\` | Downloads the source code |
-| \`do_unpack\` | Extracts the source archive |
-| \`do_patch\` | Applies any patches |
-| \`do_configure\` | Runs configuration (e.g., ./configure) |
-| \`do_compile\` | Compiles the source code |
-| \`do_install\` | Installs files into a staging area |
-| \`do_package\` | Creates packages (rpm, deb, ipk) |
-
-## Common BitBake Commands
+Debug variable assignments:
 
 \`\`\`bash
-# Build a specific recipe
-bitbake myrecipe
-
-# Build a complete image
-bitbake core-image-minimal
-
-# Run a specific task
-bitbake myrecipe -c compile
-
-# Show the recipe environment
-bitbake myrecipe -e
-
-# List all recipes
-bitbake-layers show-recipes
-
-# List all layers
-bitbake-layers show-layers
-
-# Clean a recipe (remove build artifacts)
-bitbake myrecipe -c cleansstate
+$ bitbake-getvar DEPLOY_DIR
+# Shows each config file, pre-expansion value, and final value
 \`\`\`
 
-## The Shared State Cache (sstate)
+## Shared State Cache (SSTATE_DIR)
 
-BitBake uses a **shared state cache** to avoid rebuilding unchanged components. If the inputs to a task haven't changed, BitBake reuses the cached output.
+Caches task outputs to speed up rebuilds. Defaults to \`build/sstate-cache\`.
 
-This is one of the most powerful features of the build system:
-- Dramatically speeds up rebuilds
-- Can be shared across machines
-- Enables reproducible builds
+Clean old entries: \`find sstate-cache/ -type f -atime +30 -delete\`
+
+## Build Statistics
+
+Stored in \`tmp/buildstats/\` — CPU usage, elapsed time, timestamps for all packages.
         `,
         quiz: [
           {
-            question: 'What is the correct order of BitBake tasks?',
-            options: [
-              'compile → fetch → install → package',
-              'fetch → unpack → patch → configure → compile → install → package',
-              'configure → compile → fetch → package',
-              'fetch → compile → configure → install',
-            ],
+            question: 'What command builds a minimal image?',
+            options: ['bitbake minimal-image', 'bitbake core-image-minimal', 'make core-image-minimal', 'yocto build minimal'],
             correct: 1,
-            explanation: 'BitBake follows the order: fetch → unpack → patch → configure → compile → install → package.',
+            explanation: '"bitbake core-image-minimal" builds the core-image-minimal target.',
           },
           {
-            question: 'What does the shared state cache (sstate) do?',
-            options: [
-              'Stores user preferences',
-              'Caches network requests',
-              'Avoids rebuilding unchanged components',
-              'Manages Git repositories',
-            ],
-            correct: 2,
-            explanation: 'The shared state cache stores task outputs so that unchanged components don\'t need to be rebuilt, dramatically speeding up subsequent builds.',
+            question: 'Which BitBake option runs a specific task?',
+            options: ['-t', '-c', '-r', '-s'],
+            correct: 1,
+            explanation: '-c specifies which task to run, e.g. bitbake -c compile myrecipe.',
           },
           {
-            question: 'Which command builds a minimal Linux image?',
-            options: [
-              'bitbake linux-minimal',
-              'make core-image',
-              'bitbake core-image-minimal',
-              'build-image minimal',
-            ],
+            question: 'What does bitbake --runall=fetch do?',
+            options: ['Fetches BitBake updates', 'Downloads all sources for a target and dependencies', 'Runs all tasks for every recipe', 'Fetches sstate from mirror'],
+            correct: 1,
+            explanation: '--runall=fetch downloads all source code for the target and all dependencies.',
+          },
+          {
+            question: 'What is the shared state cache (SSTATE_DIR) used for?',
+            options: ['Storing source code', 'Holding config files', 'Speeding up builds by caching task outputs', 'Logging errors'],
             correct: 2,
-            explanation: 'The command "bitbake core-image-minimal" builds the minimal reference image provided by Yocto.',
+            explanation: 'The sstate cache stores task outputs so unchanged tasks can be skipped in subsequent builds.',
+          },
+          {
+            question: 'What does bitbake-getvar DEPLOY_DIR show?',
+            options: ['Deploys files', 'How a variable is assigned across config files with final value', 'Sets DEPLOY_DIR', 'Deletes deploy dir'],
+            correct: 1,
+            explanation: 'bitbake-getvar shows each config file touching the variable and the final resolved value.',
+          },
+          {
+            question: 'What does bitbake -c devshell <recipe> do?',
+            options: ['Deletes workspace', 'Opens a shell with the full build environment for that recipe', 'Shows source code', 'Runs unit tests'],
+            correct: 1,
+            explanation: 'devshell opens an interactive shell with all environment variables set for debugging.',
+          },
+          {
+            question: 'Where are build statistics stored?',
+            options: ['tmp/logs/', 'sstate-cache/', 'tmp/buildstats/', 'conf/'],
+            correct: 2,
+            explanation: 'Build statistics are stored in tmp/buildstats/.',
           },
         ],
       },
@@ -308,128 +293,88 @@ This is one of the most powerful features of the build system:
         content: `
 # Build Configuration
 
-Setting up your build environment correctly is crucial. Let's walk through the key configuration files and settings.
-
-## Setting Up the Build Environment
+## Setup
 
 \`\`\`bash
-# Clone the Poky repository
-git clone git://git.yoctoproject.org/poky
-cd poky
-
-# Check out a release branch
-git checkout -b my-build scarthgap
-
-# Initialize the build environment
-source oe-init-build-env
+source oe-init-build-env [builddir]   # Default name: "build"
 \`\`\`
 
-After running \`oe-init-build-env\`, you'll be placed in the \`build/\` directory with two key configuration files.
+## Config Files (conf/)
 
-## conf/local.conf
+| File | Purpose |
+|------|---------|
+| \`bblayers.conf\` | **Mandatory** — lists layers (BBLAYERS) |
+| \`local.conf\` | **Mandatory** — user config variables |
+| \`site.conf\` | **Optional** — site-specific (mirrors, resources) |
 
-This is your **local build configuration**. Key variables:
+## Key local.conf Variables
 
-\`\`\`bash
-# Target machine (what hardware are you building for?)
-MACHINE ?= "qemux86-64"
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| \`MACHINE\` | Target machine | qemux86-64 |
+| \`BB_NUMBER_THREADS\` | Parallel BitBake tasks | CPU threads |
+| \`PARALLEL_MAKE\` | Parallel make processes | CPU threads |
+| \`DL_DIR\` | Download directory | build/downloads |
 
-# Distribution
-DISTRO ?= "poky"
-
-# Package format
-PACKAGE_CLASSES ?= "package_rpm"
-
-# Number of parallel threads
-BB_NUMBER_THREADS ?= "8"
-PARALLEL_MAKE ?= "-j 8"
-
-# Extra image features
-EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
-
-# Download directory (where sources are cached)
-DL_DIR ?= "\${TOPDIR}/downloads"
-
-# Shared state directory
-SSTATE_DIR ?= "\${TOPDIR}/sstate-cache"
-
-# Temporary build directory
-TMPDIR = "\${TOPDIR}/tmp"
-\`\`\`
-
-## conf/bblayers.conf
-
-This file lists the **layers** included in your build:
-
-\`\`\`bash
-BBLAYERS ?= " \\
-  /path/to/poky/meta \\
-  /path/to/poky/meta-poky \\
-  /path/to/poky/meta-yocto-bsp \\
-  /path/to/meta-mylayer \\
-"
-\`\`\`
-
-## Common MACHINE Values
-
-| Machine | Description |
-|---------|-------------|
-| \`qemux86-64\` | QEMU x86-64 emulator |
-| \`qemux86\` | QEMU x86 emulator |
-| \`qemuarm\` | QEMU ARM emulator |
-| \`qemuarm64\` | QEMU ARM64 emulator |
-| \`genericx86-64\` | Generic x86-64 hardware |
-| \`beaglebone-yocto\` | BeagleBone board |
-
-## Build Directory Structure
+## Build Directory After Build
 
 \`\`\`
 build/
-├── conf/
-│   ├── local.conf          # Local configuration
-│   └── bblayers.conf       # Layer configuration
-├── tmp/
-│   ├── deploy/
-│   │   └── images/         # Output images
-│   ├── work/               # Recipe build directories
-│   └── sysroots/           # Cross-compilation sysroots
-├── downloads/              # Downloaded source archives
-└── sstate-cache/           # Shared state cache
++-- conf/              # Config (unchanged)
++-- downloads/         # Upstream source tarballs
++-- sstate-cache/      # Shared state cache
++-- tmp/               # All build outputs
+    +-- work/          # Per-recipe work dirs (by architecture)
+    +-- sysroots/      # Shared libraries and headers
+    +-- deploy/
+    |   +-- images/    # Complete flashable images
+    +-- buildstats/    # Build statistics
 \`\`\`
+
+Exported variables: \`BUILDDIR\` (absolute path), \`PATH\` (prepended with scripts/ and bitbake/bin/).
         `,
         quiz: [
           {
-            question: 'Which file contains the target machine configuration?',
-            options: [
-              'bblayers.conf',
-              'local.conf',
-              'machine.conf',
-              'bitbake.conf',
-            ],
+            question: 'Which file lists the layers used in a build?',
+            options: ['local.conf', 'bblayers.conf', 'layer.conf', 'site.conf'],
             correct: 1,
-            explanation: 'The MACHINE variable is set in conf/local.conf to specify the target hardware for the build.',
+            explanation: 'bblayers.conf contains the BBLAYERS variable listing all layers.',
           },
           {
-            question: 'What command initializes the Yocto build environment?',
-            options: [
-              'make init',
-              'yocto-init',
-              'source oe-init-build-env',
-              'bitbake init',
-            ],
+            question: 'What variable sets the target machine?',
+            options: ['TARGET', 'MACHINE', 'BOARD', 'PLATFORM'],
+            correct: 1,
+            explanation: 'MACHINE in local.conf specifies the target hardware.',
+          },
+          {
+            question: 'Where are downloaded source tarballs stored?',
+            options: ['tmp/deploy/', 'sstate-cache/', 'downloads/ in the build directory', 'conf/'],
             correct: 2,
-            explanation: 'Running "source oe-init-build-env" sets up the build environment and creates the build directory.',
+            explanation: 'Sources are stored in the downloads/ directory (DL_DIR).',
           },
           {
-            question: 'What is bblayers.conf used for?',
-            options: [
-              'Setting the target machine',
-              'Listing the layers included in the build',
-              'Configuring the Linux kernel',
-              'Defining package dependencies',
-            ],
+            question: 'What is site.conf for?',
+            options: ['Listing layers', 'Setting the machine', 'Site-specific settings like network mirrors and resource limits', 'Defining recipes'],
+            correct: 2,
+            explanation: 'site.conf holds site-specific settings like network mirrors and CPU/memory limits.',
+          },
+          {
+            question: 'Where are final flashable images after a build?',
+            options: ['tmp/work/', 'downloads/', 'tmp/deploy/images/', 'sstate-cache/'],
+            correct: 2,
+            explanation: 'Complete flashable images are placed in tmp/deploy/images/.',
+          },
+          {
+            question: 'What does PARALLEL_MAKE control?',
+            options: ['Number of images built', 'How many processes used when compiling', 'Recipe order', 'Parallel downloads'],
             correct: 1,
-            explanation: 'bblayers.conf lists all the metadata layers that BitBake should include when processing recipes.',
+            explanation: 'PARALLEL_MAKE controls how many processes (make -j) are used when compiling.',
+          },
+          {
+            question: 'What happens when you source oe-init-build-env for the first time?',
+            options: ['Starts a build', 'Creates the build directory with conf/ subdirectory', 'Downloads Poky', 'Installs BitBake'],
+            correct: 1,
+            explanation: 'It creates the build directory with template configuration files in conf/.',
           },
         ],
       },
@@ -438,133 +383,123 @@ build/
   {
     id: 'recipes-layers',
     title: 'Recipes & Layers',
-    description: 'Master the art of writing recipes and creating custom layers for your Yocto builds.',
-    icon: '📝',
+    description: 'Master recipe writing, layer management, recipe extensions, and classes.',
+    icon: '🧱',
     lessons: [
       {
         id: 'writing-recipes',
         title: 'Writing Recipes',
         content: `
-# Writing Yocto Recipes
+# Writing Recipes
 
-A recipe is the fundamental building block in Yocto. Each recipe describes how to build a single piece of software.
+Format: \`<name>_<version>.bb\` — output is binary packages (rpm/deb/ipk).
 
-## Basic Recipe Structure
+## Auto-Available Variables
+
+| Variable | Description | Example (bash_5.1.bb) |
+|----------|-------------|-----------------------|
+| BPN | Recipe name | bash |
+| PN | BPN with prefix/suffix | bash |
+| PV | Version | 5.1 |
+| BP | BPN-PV | bash-5.1 |
+
+## Recipe Header
 
 \`\`\`bash
-# myapp_1.0.bb
-
-SUMMARY = "My example application"
-DESCRIPTION = "A simple application to demonstrate Yocto recipes"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=abc123..."
-
-# Source location
-SRC_URI = "git://github.com/example/myapp.git;branch=main;protocol=https"
-SRCREV = "a1b2c3d4e5f6..."
-
-S = "\${WORKDIR}/git"
-
-# Dependencies
-DEPENDS = "libxml2 openssl"
-RDEPENDS:\${PN} = "bash"
-
-# Inherit a class for the build system
-inherit cmake
-
-# Install extra files
-do_install:append() {
-    install -d \${D}\${sysconfdir}
-    install -m 0644 \${WORKDIR}/myapp.conf \${D}\${sysconfdir}/
-}
+SUMMARY = "Short description"
+HOMEPAGE = "https://example.com"
+LICENSE = "GPL-2.0-or-later"    # SPDX identifier
 \`\`\`
 
-## Key Recipe Variables
+## SRC_URI
+
+\`\`\`bash
+# HTTP with checksum
+SRC_URI = "https://example.com/app-\\\${PV}.tar.gz"
+SRC_URI[sha256sum] = "abc..."
+
+# Git (SRCREV must be commit hash for offline reproducibility)
+SRC_URI = "git://git.example.com/app;protocol=https;branch=main"
+SRCREV = "2d47b4eb..."
+S = "\\\${WORKDIR}/git"
+
+# Local files (searched via FILESPATH)
+SRC_URI += "file://defconfig file://fix.patch"
+\`\`\`
+
+## FILESPATH Search
+
+Files searched in order: \`\\\${FILE_DIRNAME}/\\\${BP}\`, \`\\\${FILE_DIRNAME}/\\\${BPN}\`, \`\\\${FILE_DIRNAME}/files\` — allows machine-specific overrides without conditionals.
+
+## License Tracking
+
+\`\`\`bash
+LIC_FILES_CHKSUM = "file://COPYING;md5=abc..."
+\`\`\`
+Mandatory unless LICENSE = "CLOSED". Build fails if checksum changes.
+
+## .inc Files
+
+Common metadata in \`tar.inc\`, version-specific in \`tar_1.26.bb\` using \`require tar.inc\`.
+
+## Dependencies
+
+| Variable | Type |
+|----------|------|
+| DEPENDS | Build-time |
+| RDEPENDS:\\\${PN} | Runtime |
+
+## Task Variables
 
 | Variable | Description |
 |----------|-------------|
-| \`SUMMARY\` | One-line description |
-| \`DESCRIPTION\` | Detailed description |
-| \`LICENSE\` | Software license (e.g., MIT, GPLv2) |
-| \`LIC_FILES_CHKSUM\` | Checksum of the license file |
-| \`SRC_URI\` | Where to fetch source code |
-| \`SRCREV\` | Git revision to use |
-| \`S\` | Source directory path |
-| \`DEPENDS\` | Build-time dependencies |
-| \`RDEPENDS\` | Runtime dependencies |
-| \`FILES\` | Files to include in the package |
-
-## SRC_URI Examples
-
-\`\`\`bash
-# Git repository
-SRC_URI = "git://github.com/user/repo.git;branch=main;protocol=https"
-
-# HTTP tarball
-SRC_URI = "https://example.com/myapp-1.0.tar.gz"
-
-# Local files
-SRC_URI = "file://myconfig.conf \\
-           file://0001-fix-build.patch"
-
-# Multiple sources
-SRC_URI = "https://example.com/myapp-1.0.tar.gz \\
-           file://0001-fix-typo.patch \\
-           file://custom.cfg"
-\`\`\`
-
-## Recipe Versioning
-
-Recipe filenames encode the version:
-\`\`\`
-myapp_1.0.bb        → version 1.0
-myapp_2.3.1.bb      → version 2.3.1
-myapp_git.bb        → version from git
-\`\`\`
-
-## Common Inherited Classes
-
-| Class | Use Case |
-|-------|----------|
-| \`autotools\` | Projects using Autotools (configure/make) |
-| \`cmake\` | Projects using CMake |
-| \`meson\` | Projects using Meson |
-| \`setuptools3\` | Python packages |
-| \`systemd\` | Services managed by systemd |
+| WORKDIR | Recipe working directory |
+| S | Source code location |
+| B | Build objects location |
+| D | Destination (install root) |
         `,
         quiz: [
           {
-            question: 'What does DEPENDS specify in a recipe?',
-            options: [
-              'Runtime dependencies',
-              'Build-time dependencies',
-              'Optional features',
-              'Kernel modules',
-            ],
+            question: 'What is the correct recipe filename format?',
+            options: ['myapp-1.0.bb', 'myapp_1.0.bb', '1.0_myapp.bb', 'myapp.1.0.bb'],
             correct: 1,
-            explanation: 'DEPENDS lists build-time dependencies — packages that must be built before this recipe can be compiled. RDEPENDS is for runtime dependencies.',
+            explanation: 'Recipe files use <name>_<version>.bb format.',
           },
           {
-            question: 'How is the version encoded in a recipe filename?',
-            options: [
-              'In a VERSION variable',
-              'In the filename after an underscore (e.g., myapp_1.0.bb)',
-              'In a separate version file',
-              'In the layer.conf',
-            ],
+            question: 'What does SRC_URI specify?',
+            options: ['Installation directory', 'Where and how to retrieve source code', 'Package list', 'Machine configuration'],
             correct: 1,
-            explanation: 'Yocto encodes the version in the recipe filename: myapp_1.0.bb means the recipe "myapp" at version "1.0".',
+            explanation: 'SRC_URI defines locations and schemes for retrieving source code, patches, and config files.',
           },
           {
-            question: 'What does LIC_FILES_CHKSUM do?',
-            options: [
-              'Checks if the license server is online',
-              'Validates the integrity of the license file',
-              'Counts the number of licensed files',
-              'Downloads the license',
-            ],
+            question: 'Why must SRCREV be a commit hash when using git?',
+            options: ['Faster cloning', 'Tags can change, so commit hashes ensure offline reproducibility', 'BitBake cannot parse tags', 'Tags are deprecated'],
             correct: 1,
-            explanation: 'LIC_FILES_CHKSUM contains a checksum of the license file to verify its integrity and ensure compliance tracking.',
+            explanation: 'Git tags can move; commit hashes ensure the exact same source is fetched every time.',
+          },
+          {
+            question: 'What is LIC_FILES_CHKSUM used for?',
+            options: ['Encrypting files', 'Tracking license file integrity so builds fail if license changes', 'Managing versions', 'Verifying binaries'],
+            correct: 1,
+            explanation: 'LIC_FILES_CHKSUM checksums license files — if a license changes upstream, the build fails.',
+          },
+          {
+            question: 'What variable lists build-time dependencies?',
+            options: ['RDEPENDS', 'SRC_URI', 'DEPENDS', 'PROVIDES'],
+            correct: 2,
+            explanation: 'DEPENDS lists build-time dependencies.',
+          },
+          {
+            question: 'What are .inc files for?',
+            options: ['Overriding recipes', 'Storing version-agnostic common metadata', 'License data only', 'Config variables only'],
+            correct: 1,
+            explanation: '.inc files hold common metadata shared across version-specific .bb recipe files.',
+          },
+          {
+            question: 'What does the D variable represent?',
+            options: ['Download directory', 'Destination directory where files are installed before imaging', 'Debug output', 'Device tree directory'],
+            correct: 1,
+            explanation: 'D is the destination install root, where files go during do_install before packaging.',
           },
         ],
       },
@@ -574,413 +509,415 @@ myapp_git.bb        → version from git
         content: `
 # Creating Custom Layers
 
-Layers are the modular building blocks of a Yocto build. Creating your own layer is essential for organizing custom recipes and configurations.
-
-## Creating a Layer with bitbake-layers
+## Creating a Layer
 
 \`\`\`bash
-# Create a new layer
-bitbake-layers create-layer meta-mylayer
-
-# Add it to your build
-bitbake-layers add-layer meta-mylayer
+bitbake-layers create-layer -p <PRIORITY> meta-custom
 \`\`\`
 
-## Layer Structure
+Priority determines which recipe wins when multiple layers have the same recipe.
 
-\`\`\`
-meta-mylayer/
-├── conf/
-│   └── layer.conf
-├── recipes-core/
-│   └── images/
-│       └── my-image.bb
-├── recipes-apps/
-│   └── myapp/
-│       ├── myapp_1.0.bb
-│       └── files/
-│           └── myapp.conf
-├── recipes-bsp/
-│   └── ...
-├── COPYING.MIT
-└── README
-\`\`\`
+## Pre-filled Files
 
-## layer.conf
+\`conf/layer.conf\` (mandatory), \`COPYING.MIT\`, \`README\`
+
+## Managing Layers
 
 \`\`\`bash
-# conf/layer.conf
-
-# We have a conf and classes directory, add to BBPATH
-BBPATH .= ":\${LAYERDIR}"
-
-# We have recipes-* directories, add to BBFILES
-BBFILES += "\${LAYERDIR}/recipes-*/*/*.bb \\
-            \${LAYERDIR}/recipes-*/*/*.bbappend"
-
-BBFILE_COLLECTIONS += "mylayer"
-BBFILE_PATTERN_mylayer = "^\${LAYERDIR}/"
-BBFILE_PRIORITY_mylayer = "6"
-
-LAYERDEPENDS_mylayer = "core"
-LAYERSERIES_COMPAT_mylayer = "scarthgap"
+bitbake-layers show-layers
+bitbake-layers add-layer meta-custom
+bitbake-layers remove-layer meta-qt5
 \`\`\`
 
-## Key layer.conf Variables
+## Layer Config Variables
 
-| Variable | Description |
-|----------|-------------|
-| \`BBFILE_COLLECTIONS\` | Unique name for the layer |
-| \`BBFILE_PATTERN\` | Pattern to match files in this layer |
-| \`BBFILE_PRIORITY\` | Priority (higher = takes precedence) |
-| \`LAYERDEPENDS\` | Other layers this layer depends on |
-| \`LAYERSERIES_COMPAT\` | Compatible Yocto release series |
+| Variable | Purpose |
+|----------|---------|
+| LAYERDEPENDS | Dependencies on other layers |
+| LAYERSERIES_COMPAT | Compatible Yocto releases |
 
-## Layer Naming Convention
+## Third-Party Layers
 
-Layers follow the naming convention \`meta-<name>\`:
-- \`meta-raspberrypi\` — Raspberry Pi BSP
-- \`meta-openembedded\` — Extra OE recipes
-- \`meta-security\` — Security tools and hardening
-- \`meta-virtualization\` — Container and VM support
+Browse at **layers.openembedded.org**. Examples: meta-ti-bsp, meta-freescale, meta-browser, meta-qt5.
 
-## Using .bbappend Files
+## Best Practices
 
-To modify a recipe from another layer without editing it:
-
-\`\`\`bash
-# In your layer, mirror the path structure
-meta-mylayer/
-└── recipes-core/
-    └── base-files/
-        └── base-files_%.bbappend
-
-# The % wildcard matches any version
-\`\`\`
-
-\`\`\`bash
-# base-files_%.bbappend
-FILESEXTRAPATHS:prepend := "\${THISDIR}/files:"
-
-# Add custom files
-SRC_URI += "file://my-custom-file"
-
-do_install:append() {
-    install -m 0644 \${WORKDIR}/my-custom-file \${D}\${sysconfdir}/
-}
-\`\`\`
-
-## Finding Existing Layers
-
-The **OpenEmbedded Layer Index** at [layers.openembedded.org](https://layers.openembedded.org) is the official directory of available layers.
+- Never modify third-party layers — use .bbappend
+- Use LAYERDEPENDS and LAYERSERIES_COMPAT
         `,
         quiz: [
           {
-            question: 'What is the naming convention for Yocto layers?',
-            options: [
-              'layer-<name>',
-              'yocto-<name>',
-              'meta-<name>',
-              '<name>-layer',
-            ],
+            question: 'What command creates a new layer?',
+            options: ['bitbake create-layer', 'oe-layer-create', 'bitbake-layers create-layer', 'yocto-layer-init'],
             correct: 2,
-            explanation: 'Yocto layers follow the naming convention meta-<name>, such as meta-raspberrypi or meta-security.',
+            explanation: 'bitbake-layers create-layer creates a new layer with proper structure.',
           },
           {
-            question: 'What does BBFILE_PRIORITY control?',
-            options: [
-              'Build order of tasks',
-              'Which layer takes precedence when recipes conflict',
-              'Download priority for sources',
-              'CPU priority for compilation',
-            ],
+            question: 'What is the naming convention for layers?',
+            options: ['Prefix with layer-', 'Prefix with meta-', 'Suffix with -layer', 'Prefix with yocto-'],
             correct: 1,
-            explanation: 'BBFILE_PRIORITY determines which layer\'s recipes take precedence when multiple layers provide the same recipe. Higher values win.',
+            explanation: 'Layers are prefixed with meta- by convention.',
           },
           {
-            question: 'How do you modify a recipe from another layer?',
-            options: [
-              'Edit the original recipe file directly',
-              'Create a .bbappend file in your layer',
-              'Delete the original and rewrite it',
-              'Use a .patch file on the recipe',
-            ],
+            question: 'What does layer priority control?',
+            options: ['Parse order', 'Which recipe is used when multiple layers provide the same one', 'Compilation speed', 'Package install order'],
             correct: 1,
-            explanation: 'The proper way to modify recipes from other layers is to create a .bbappend file in your own layer, preserving modularity.',
+            explanation: 'Layer priority determines which recipe wins when multiple layers have the same recipe.',
+          },
+          {
+            question: 'What is the mandatory entry point for a layer?',
+            options: ['layer.conf', 'README', 'conf/layer.conf', 'conf/local.conf'],
+            correct: 2,
+            explanation: 'conf/layer.conf is mandatory — BitBake reads it to discover the layer.',
+          },
+          {
+            question: 'What does LAYERSERIES_COMPAT specify?',
+            options: ['Compatible architectures', 'Yocto release versions the layer works with', 'Compatible machines', 'Compatible kernels'],
+            correct: 1,
+            explanation: 'LAYERSERIES_COMPAT declares compatible Yocto release series (e.g. scarthgap).',
+          },
+          {
+            question: 'Where can you find third-party layers?',
+            options: ['github.com/yocto', 'yoctoproject.org/layers', 'layers.openembedded.org', 'bitbake.org/layers'],
+            correct: 2,
+            explanation: 'layers.openembedded.org is the official layer index.',
+          },
+          {
+            question: 'Best practice when modifying a recipe from another layer?',
+            options: ['Edit it directly', 'Copy it to your layer', 'Use a .bbappend file', 'Delete the original'],
+            correct: 2,
+            explanation: 'Create a .bbappend in your own layer to keep the original untouched.',
+          },
+        ],
+      },
+      {
+        id: 'recipe-extensions',
+        title: 'Recipe Extensions (bbappend)',
+        content: `
+# Recipe Extensions (bbappend)
+
+## Naming Rules
+
+- \`example_0.1.bbappend\` applies to \`example_0.1.bb\`
+- \`example_0.%.bbappend\` matches \`example_0.1.bb\`, \`example_0.2.bb\` (not \`example_1.0.bb\`)
+- \`%\` only works just before \`.bbappend\`
+
+## Adding New Files
+
+\`\`\`bash
+FILESEXTRAPATHS:prepend := "\\\${THISDIR}/files:"
+\`\`\`
+
+Prepending ensures your files take priority.
+
+## Example
+
+\`\`\`bash
+# linux-yocto_6.12.bbappend
+FILESEXTRAPATHS:prepend := "\\\${THISDIR}/files:"
+SRC_URI += "file://defconfig file://fix.patch"
+\`\`\`
+
+## Modifying Tasks
+
+\`\`\`bash
+do_install:append() {
+    install -d \\\${D}\\\${sysconfdir}
+    install -m 0644 hello.conf \\\${D}\\\${sysconfdir}
+}
+
+# Machine-specific:
+do_install:append:beaglebone() {
+    install -m 0644 fw.bin \\\${D}\\\${nonarch_base_libdir}/firmware
+}
+\`\`\`
+        `,
+        quiz: [
+          {
+            question: 'What does % match in example_0.%.bbappend?',
+            options: ['Any recipe named example', 'Versions starting with 0. but not 1.0', 'All versions', 'Only 0.0'],
+            correct: 1,
+            explanation: '% matches example_0.1.bb, example_0.2.bb, etc., but not example_1.0.bb.',
+          },
+          {
+            question: 'Why prepend to FILESEXTRAPATHS rather than append?',
+            options: ['Faster', 'Your files take priority over the original', 'Append is not allowed', 'Alphabetical ordering'],
+            correct: 1,
+            explanation: 'Prepending puts your paths first in the search order.',
+          },
+          {
+            question: 'Which variable must be set when adding files in a bbappend?',
+            options: ['SRC_URI', 'FILESEXTRAPATHS', 'FILESPATH', 'FILE_DIRNAME'],
+            correct: 1,
+            explanation: 'FILESEXTRAPATHS must be prepended so BitBake finds your new files.',
+          },
+          {
+            question: 'How do you extend do_install in a bbappend?',
+            options: ['do_install_extra()', 'override_install()', 'do_install:append() { ... }', 'do_install += "..."'],
+            correct: 2,
+            explanation: 'do_install:append() adds code after the original do_install.',
+          },
+          {
+            question: 'What happens if a recipe updates but the bbappend does not?',
+            options: ['Auto-updates', 'Build may fail or bbappend silently ignored', 'BitBake ignores mismatch', 'Old version always used'],
+            correct: 1,
+            explanation: 'Bbappend files should be version-specific; mismatches may cause failures.',
+          },
+        ],
+      },
+      {
+        id: 'classes',
+        title: 'Classes',
+        content: `
+# Classes
+
+Reusable build logic shared across recipes. Extension: \`.bbclass\`
+
+## Usage
+
+\`\`\`bash
+inherit autotools              # In a recipe
+INHERIT += "buildhistory"      # In config (globally)
+\`\`\`
+
+## Common Classes
+
+**base.bbclass** — Automatically inherited by every recipe. Defines default tasks, oe_runmake, mirrors.
+
+**kernel.bbclass** — Builds kernels. Auto-applies defconfig. Provides virtual/kernel. Variables: KERNEL_IMAGETYPE, KERNEL_EXTRA_ARGS.
+
+**autotools.bbclass** — Handles autotools projects. do_configure runs autoreconf. EXTRA_OECONF, EXTRA_OEMAKE.
+
+**cmake.bbclass / meson.bbclass** — For CMake and Meson projects.
+
+**useradd.bbclass** — Adds users/groups. Must define USERADD_PACKAGES, USERADD_PARAM.
+
+**bin_package.bbclass** — For pre-built files (firmware). Disables do_configure and do_compile.
+
+## Example
+
+\`\`\`bash
+LICENSE = "GPL-3.0-or-later"
+LIC_FILES_CHKSUM = "file://COPYING;md5=..."
+SRC_URI = "\\\${GNU_MIRROR}/hello/hello-\\\${PV}.tar.gz"
+SRC_URI[sha256sum] = "..."
+inherit autotools
+\`\`\`
+        `,
+        quiz: [
+          {
+            question: 'Which class is automatically inherited by every recipe?',
+            options: ['kernel.bbclass', 'autotools.bbclass', 'base.bbclass', 'core.bbclass'],
+            correct: 2,
+            explanation: 'base.bbclass is auto-inherited and provides default tasks.',
+          },
+          {
+            question: 'How do you use a class in a recipe?',
+            options: ['include <class>', 'inherit <class>', 'require <class>', 'import <class>'],
+            correct: 1,
+            explanation: 'Use "inherit classname" in recipes.',
+          },
+          {
+            question: 'What does the autotools class do?',
+            options: ['Downloads source', 'Runs autoreconf with cross-compilation arguments', 'Creates packages', 'Compiles kernels'],
+            correct: 1,
+            explanation: 'autotools runs autoreconf and configures with standard cross-compilation arguments.',
+          },
+          {
+            question: 'What is bin_package.bbclass for?',
+            options: ['Building from source', 'Installing pre-built binaries like firmware', 'Binary patches', 'Compiling utilities'],
+            correct: 1,
+            explanation: 'bin_package is for pre-built files — it disables do_configure and do_compile.',
+          },
+          {
+            question: 'How to inherit a class globally?',
+            options: ['inherit in local.conf', 'INHERIT += "class" in config', 'GLOBAL_CLASS = "class"', 'Add to bblayers.conf'],
+            correct: 1,
+            explanation: 'INHERIT += "classname" in a config file applies to all recipes.',
+          },
+          {
+            question: 'What must be defined when using useradd class?',
+            options: ['USER_LIST', 'USERADD_PACKAGES', 'ADDUSER_PARAMS', 'SYSTEM_USERS'],
+            correct: 1,
+            explanation: 'USERADD_PACKAGES specifies which packages need users/groups created.',
           },
         ],
       },
     ],
   },
   {
-    id: 'customization',
+    id: 'image-customization',
     title: 'Image Customization',
-    description: 'Learn to create custom images, add packages, and configure your embedded Linux system.',
-    icon: '🎨',
+    description: 'Master image recipes, kernel configuration, and flashable image creation.',
+    icon: '🖼️',
     lessons: [
       {
         id: 'custom-images',
-        title: 'Creating Custom Images',
+        title: 'Custom Images',
         content: `
-# Creating Custom Images
+# Custom Images
 
-An **image recipe** defines the contents of your root filesystem. Creating custom images lets you build exactly the system you need.
+An image is the top-level recipe — architecture agnostic, inherits \`core-image\`, no LICENSE needed.
 
-## Standard Reference Images
+## Common Images
 
-Yocto provides several reference images:
+core-image-minimal, core-image-base, core-image-x11, core-image-weston, core-image-rt
 
-| Image | Description |
-|-------|-------------|
-| \`core-image-minimal\` | Minimal boot image (just enough to boot) |
-| \`core-image-base\` | Console-only image with hardware support |
-| \`core-image-full-cmdline\` | Full command-line Linux system |
-| \`core-image-sato\` | Mobile/embedded GUI using Sato |
-| \`core-image-weston\` | Wayland/Weston compositor image |
+## Key Variables
 
-## Writing a Custom Image Recipe
+| Variable | Purpose |
+|----------|---------|
+| IMAGE_INSTALL | Packages to install |
+| IMAGE_FEATURES | Features (allow-root-login, debug-tweaks, package-management) |
+| IMAGE_FSTYPES | Output formats (ext4, squashfs, cpio, tar.bz2) |
+| IMAGE_LINGUAS | Locales |
+| IMAGE_PKGTYPE | Package format (deb/rpm/ipk) |
+| IMAGE_POSTPROCESS_COMMAND | Post-process shell commands |
+| EXTRA_IMAGEDEPENDS | Build but don't install (e.g. bootloader) |
 
-\`\`\`bash
-# recipes-core/images/my-custom-image.bb
+## Generation Steps
 
-SUMMARY = "My custom embedded Linux image"
-LICENSE = "MIT"
-
-# Inherit the core-image class
-inherit core-image
-
-# Start from minimal and add packages
-IMAGE_INSTALL = "packagegroup-core-boot"
-IMAGE_INSTALL += "kernel-modules"
-IMAGE_INSTALL += "openssh"
-IMAGE_INSTALL += "python3"
-IMAGE_INSTALL += "nginx"
-IMAGE_INSTALL += "myapp"
-
-# Image features
-IMAGE_FEATURES += "ssh-server-openssh"
-IMAGE_FEATURES += "package-management"
-
-# Set the root filesystem size
-IMAGE_ROOTFS_EXTRA_SPACE = "524288"
-
-# Set the image type
-IMAGE_FSTYPES = "ext4 wic"
-\`\`\`
+1. Empty directory created
+2. Packages from IMAGE_INSTALL installed via package manager
+3. Image files generated per IMAGE_FSTYPES
 
 ## Package Groups
 
-For better organization, create **package groups**:
+Recipes using \`packagegroup\` class: packagegroup-core-boot, packagegroup-core-tools-debug
+
+## wic Tool
+
+Creates partitioned flashable images from \`.wks\` layout files.
+
+## Example
 
 \`\`\`bash
-# recipes-core/packagegroups/packagegroup-my-tools.bb
-
-SUMMARY = "My custom tool set"
-LICENSE = "MIT"
-
-inherit packagegroup
-
-RDEPENDS:\${PN} = " \\
-    htop \\
-    vim \\
-    git \\
-    curl \\
-    screen \\
-"
-\`\`\`
-
-Then use it in your image:
-\`\`\`bash
-IMAGE_INSTALL += "packagegroup-my-tools"
-\`\`\`
-
-## IMAGE_FEATURES
-
-Common image features you can enable:
-
-| Feature | Description |
-|---------|-------------|
-| \`debug-tweaks\` | Allows root login without password |
-| \`ssh-server-openssh\` | Adds OpenSSH server |
-| \`package-management\` | Keeps package manager on target |
-| \`tools-debug\` | Adds debugging tools |
-| \`tools-sdk\` | Adds SDK tools |
-| \`splash\` | Shows splash screen during boot |
-| \`read-only-rootfs\` | Makes root filesystem read-only |
-
-## Image Types (IMAGE_FSTYPES)
-
-\`\`\`bash
-# Common output formats
-IMAGE_FSTYPES = "ext4"        # Standard Linux filesystem
-IMAGE_FSTYPES = "wic"         # Partitioned disk image
-IMAGE_FSTYPES = "tar.gz"      # Compressed tarball
-IMAGE_FSTYPES = "cpio.gz"     # For initramfs
-IMAGE_FSTYPES = "iso"         # Bootable ISO
+SUMMARY = "Custom image"
+IMAGE_INSTALL = "packagegroup-core-boot dropbear myapp"
+IMAGE_LINGUAS = " "
+inherit core-image
 \`\`\`
         `,
         quiz: [
           {
-            question: 'Which reference image provides a minimal boot system?',
-            options: [
-              'core-image-sato',
-              'core-image-base',
-              'core-image-minimal',
-              'core-image-full-cmdline',
-            ],
+            question: 'What class must an image recipe inherit?',
+            options: ['image-base', 'rootfs', 'core-image', 'base'],
             correct: 2,
-            explanation: 'core-image-minimal is the most stripped-down reference image — it contains just enough to boot the system.',
+            explanation: 'Image recipes inherit core-image.',
           },
           {
-            question: 'What does IMAGE_FEATURES += "debug-tweaks" do?',
-            options: [
-              'Enables debug logging',
-              'Allows root login without a password',
-              'Adds GDB to the image',
-              'Enables kernel debug mode',
-            ],
-            correct: 1,
-            explanation: 'The "debug-tweaks" feature primarily allows root login without a password, which is useful during development.',
+            question: 'What variable defines which packages go into an image?',
+            options: ['IMAGE_PACKAGES', 'RDEPENDS', 'IMAGE_INSTALL', 'PACKAGE_LIST'],
+            correct: 2,
+            explanation: 'IMAGE_INSTALL lists packages for the root filesystem.',
           },
           {
-            question: 'What is a packagegroup used for?',
-            options: [
-              'Grouping source files together',
-              'Organizing related packages for easy inclusion in images',
-              'Compressing multiple packages into one',
-              'Managing Git repositories',
-            ],
+            question: 'What does IMAGE_FSTYPES control?',
+            options: ['Partition table', 'Kernel drivers', 'Output image format(s)', 'Package manager'],
+            correct: 2,
+            explanation: 'IMAGE_FSTYPES specifies generated image formats.',
+          },
+          {
+            question: 'What is a package group?',
+            options: ['A directory', 'A recipe grouping related packages without installing files', 'A layer type', 'A config variable'],
             correct: 1,
-            explanation: 'Package groups organize related packages so they can be easily included in image recipes as a single unit.',
+            explanation: 'Package groups group packages by functionality.',
+          },
+          {
+            question: 'What tool creates partitioned flashable images?',
+            options: ['dd', 'mkfs', 'wic', 'parted'],
+            correct: 2,
+            explanation: 'wic creates flashable partitioned images using .wks layout files.',
+          },
+          {
+            question: 'What does EXTRA_IMAGEDEPENDS do?',
+            options: ['Adds packages to rootfs', 'Creates extra images', 'Builds recipes but does not install them in rootfs', 'Installs debug tools'],
+            correct: 2,
+            explanation: 'EXTRA_IMAGEDEPENDS builds recipes alongside the image without installing them.',
           },
         ],
       },
       {
-        id: 'kernel-customization',
+        id: 'kernel-config',
         title: 'Kernel Configuration',
         content: `
-# Kernel Configuration in Yocto
+# Kernel Configuration
 
-Customizing the Linux kernel is a common task in embedded development. Yocto provides several ways to configure the kernel.
-
-## Using menuconfig
+## Selection
 
 \`\`\`bash
-# Open the kernel menuconfig
-bitbake virtual/kernel -c menuconfig
-
-# After saving your changes, create a config fragment
-bitbake virtual/kernel -c diffconfig
-\`\`\`
-
-The \`diffconfig\` task generates a fragment file containing only your changes from the default configuration.
-
-## Config Fragments
-
-Config fragments are the recommended way to customize the kernel:
-
-\`\`\`bash
-# Create a .cfg file with your changes
-# my-kernel-options.cfg
-CONFIG_USB_GADGET=y
-CONFIG_USB_ETH=m
-# CONFIG_DEBUG_INFO is not set
-\`\`\`
-
-## Applying Fragments via .bbappend
-
-\`\`\`bash
-# meta-mylayer/recipes-kernel/linux/linux-yocto_%.bbappend
-
-FILESEXTRAPATHS:prepend := "\${THISDIR}/files:"
-
-SRC_URI += "file://my-kernel-options.cfg"
-\`\`\`
-
-## Using defconfig
-
-For a complete kernel configuration:
-
-\`\`\`bash
-# meta-mylayer/recipes-kernel/linux/linux-yocto_%.bbappend
-
-FILESEXTRAPATHS:prepend := "\${THISDIR}/files:"
-
-SRC_URI += "file://defconfig"
-\`\`\`
-
-## Kernel Recipes
-
-Yocto provides standard kernel recipes:
-
-| Recipe | Description |
-|--------|-------------|
-| \`linux-yocto\` | Standard Yocto kernel with LTSI |
-| \`linux-yocto-rt\` | Real-time kernel variant |
-| \`linux-yocto-tiny\` | Minimal kernel for small footprints |
-| \`linux-yocto-dev\` | Development kernel (latest mainline) |
-
-## Selecting a Kernel Provider
-
-\`\`\`bash
-# In local.conf or machine.conf
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 PREFERRED_VERSION_linux-yocto = "6.6%"
 \`\`\`
 
-## Useful Kernel Tasks
+## Configuration Fragments
 
 \`\`\`bash
-# Configure the kernel
-bitbake virtual/kernel -c menuconfig
-
-# Generate config diff
-bitbake virtual/kernel -c diffconfig
-
-# Rebuild the kernel
-bitbake virtual/kernel -c compile -f
-
-# Deploy kernel to the image deploy directory
-bitbake virtual/kernel -c deploy
-
-# Clean and rebuild
-bitbake virtual/kernel -c cleansstate
-bitbake virtual/kernel
+SRC_URI += "file://defconfig file://nand.cfg file://eth.cfg"
 \`\`\`
+
+## LINUX_KERNEL_TYPE
+
+| Type | Description |
+|------|-------------|
+| standard | Default generic policy |
+| tiny | Bare minimum for small kernels |
+| preempt-rt | PREEMPT_RT patch |
+
+## KERNEL_FEATURES
+
+\`\`\`bash
+KERNEL_FEATURES += "features/nunchuk.scc"
+\`\`\`
+
+## .scc Files
+
+\`\`\`
+define KFEATURE_DESCRIPTION "Nunchuk support"
+kconf hardware nunchuk.cfg
+patch nunchuk-driver.patch
+\`\`\`
+
+## kernel.bbclass
+
+Auto-applies defconfig, provides virtual/kernel, splits into kernel/kernel-base/kernel-dev/kernel-modules. Key: KERNEL_IMAGETYPE (zImage), KERNEL_EXTRA_ARGS, INITRAMFS_IMAGE.
         `,
         quiz: [
           {
-            question: 'What is the recommended way to customize the kernel in Yocto?',
-            options: [
-              'Edit the kernel source directly',
-              'Use config fragments (.cfg files)',
-              'Modify the default config in the kernel tree',
-              'Use kernel command-line parameters only',
-            ],
+            question: 'What variable selects the kernel recipe?',
+            options: ['KERNEL_PROVIDER', 'PREFERRED_PROVIDER_virtual/kernel', 'KERNEL_RECIPE', 'LINUX_KERNEL'],
             correct: 1,
-            explanation: 'Config fragments (.cfg files) are the recommended approach because they are maintainable, modular, and only contain your changes.',
+            explanation: 'PREFERRED_PROVIDER_virtual/kernel selects the kernel recipe.',
           },
           {
-            question: 'What does "bitbake virtual/kernel -c diffconfig" do?',
-            options: [
-              'Shows the difference between two kernels',
-              'Creates a config fragment from menuconfig changes',
-              'Compares kernel versions',
-              'Diffs the kernel source code',
-            ],
+            question: 'How to apply a kernel config fragment?',
+            options: ['Place in kernel source', 'Add .cfg file to SRC_URI', 'Set in KERNEL_CONFIG', 'Use menuconfig'],
             correct: 1,
-            explanation: 'The diffconfig task generates a configuration fragment containing only the differences from the default config, making it easy to capture menuconfig changes.',
+            explanation: 'linux-yocto auto-applies .cfg fragments from SRC_URI.',
           },
           {
-            question: 'Which kernel recipe is designed for minimal footprints?',
-            options: [
-              'linux-yocto',
-              'linux-yocto-rt',
-              'linux-yocto-tiny',
-              'linux-yocto-dev',
-            ],
+            question: 'What does LINUX_KERNEL_TYPE = "tiny" do?',
+            options: ['Compiles core only', 'Configures bare minimum kernel', 'Removes drivers', 'Strips debug symbols'],
+            correct: 1,
+            explanation: '"tiny" sets up a bare minimum configuration.',
+          },
+          {
+            question: 'What file format describes kernel metadata features?',
+            options: ['.cfg', '.patch', '.scc', '.bbclass'],
             correct: 2,
-            explanation: 'linux-yocto-tiny is specifically designed for systems with very small storage and memory constraints.',
+            explanation: '.scc files define kernel features with kconf and patch directives.',
+          },
+          {
+            question: 'Which variable adds kernel features?',
+            options: ['KERNEL_CONFIG', 'KERNEL_OPTIONS', 'KERNEL_FEATURES', 'KERNEL_MODULES'],
+            correct: 2,
+            explanation: 'KERNEL_FEATURES lists features to enable.',
+          },
+          {
+            question: 'What does kernel class automatically provide?',
+            options: ['Device tree compiler', 'The virtual/kernel virtual package', 'A bootloader', 'A root filesystem'],
+            correct: 1,
+            explanation: 'kernel.bbclass provides virtual/kernel for machine configs to select providers.',
           },
         ],
       },
@@ -989,126 +926,79 @@ bitbake virtual/kernel
   {
     id: 'advanced-topics',
     title: 'Advanced Topics',
-    description: 'Explore SDK generation, devtool, and debugging techniques for professional Yocto development.',
-    icon: '🚀',
+    description: 'Master devtool, SDK generation, and debugging techniques.',
+    icon: '🔧',
     lessons: [
       {
         id: 'devtool',
-        title: 'Working with devtool',
+        title: 'devtool',
         content: `
-# Working with devtool
+# devtool
 
-**devtool** is a powerful command-line tool that streamlines common Yocto development tasks. It's the recommended workflow for recipe development.
+Utilities for recipe integration and development.
 
-## devtool Workflow
+## Start
 
-\`\`\`
-devtool add → develop → devtool build → devtool deploy-target → devtool finish
-\`\`\`
+| Command | Purpose |
+|---------|---------|
+| \`devtool add <recipe> <uri>\` | New recipe |
+| \`devtool modify <recipe>\` | Modify existing |
+| \`devtool upgrade -V <ver> <recipe>\` | Upgrade version |
 
-## Adding a New Recipe
-
-\`\`\`bash
-# Create a recipe from a source repository
-devtool add myapp https://github.com/example/myapp.git
-
-# This creates:
-# - A recipe in workspace/recipes/myapp/
-# - Source code in workspace/sources/myapp/
-\`\`\`
-
-## Modifying an Existing Recipe
+## Working
 
 \`\`\`bash
-# Start modifying an existing recipe
-devtool modify myrecipe
-
-# This extracts the source and sets up a workspace
-# Make your code changes in workspace/sources/myrecipe/
-\`\`\`
-
-## Building and Testing
-
-\`\`\`bash
-# Build the recipe
+devtool edit-recipe myapp
 devtool build myapp
-
-# Deploy directly to a running target (via SSH)
-devtool deploy-target myapp root@192.168.1.100
-
-# Undeploy from target
-devtool undeploy-target myapp root@192.168.1.100
+devtool build-image core-image-minimal   # Image with devtool packages
 \`\`\`
 
-## Finishing Up
+## Deploy & Update
 
 \`\`\`bash
-# Create a .bbappend and move to your layer
-devtool finish myapp meta-mylayer
-
-# Or reset the workspace without creating an append
-devtool reset myapp
+devtool deploy-target myapp root@192.168.1.100   # Upload via SSH
+devtool update-recipe myapp                       # Generate patches from git commits
+devtool reset myapp                               # Remove from devtool control
 \`\`\`
 
-## devtool Commands Reference
-
-| Command | Description |
-|---------|-------------|
-| \`devtool add\` | Add a new recipe |
-| \`devtool modify\` | Modify an existing recipe |
-| \`devtool build\` | Build a recipe from workspace |
-| \`devtool deploy-target\` | Deploy to running target |
-| \`devtool undeploy-target\` | Remove from target |
-| \`devtool finish\` | Finish and create .bbappend |
-| \`devtool reset\` | Remove from workspace |
-| \`devtool status\` | Show workspace status |
-| \`devtool search\` | Search for recipes |
-| \`devtool upgrade\` | Upgrade a recipe to new version |
-
-## Upgrading Recipes
-
-\`\`\`bash
-# Upgrade a recipe to a new version
-devtool upgrade myapp --version 2.0
-
-# This updates the recipe and lets you resolve any issues
-# When done:
-devtool finish myapp meta-mylayer
-\`\`\`
+Workspace at \`$BUILDDIR/workspace/\`. Sources managed by git — always commit changes.
         `,
         quiz: [
           {
-            question: 'What is devtool primarily used for?',
-            options: [
-              'Hardware debugging',
-              'Streamlining recipe development workflow',
-              'Managing the Linux kernel',
-              'Network configuration',
-            ],
+            question: 'What does devtool add do?',
+            options: ['Adds package to image', 'Creates new recipe from source URI', 'Adds layer', 'Installs on host'],
             correct: 1,
-            explanation: 'devtool simplifies common development tasks like adding, modifying, building, and deploying recipes.',
+            explanation: 'devtool add creates a new recipe from a source URI.',
           },
           {
-            question: 'What does "devtool deploy-target" do?',
-            options: [
-              'Builds the recipe locally',
-              'Pushes source code to Git',
-              'Deploys built software to a running target via SSH',
-              'Creates a new target machine configuration',
-            ],
+            question: 'Where is the devtool workspace?',
+            options: ['$BUILDDIR/tmp/', '$BUILDDIR/workspace/', '/opt/devtool/', '~/.devtool/'],
+            correct: 1,
+            explanation: 'devtool workspace is at $BUILDDIR/workspace/.',
+          },
+          {
+            question: 'What does devtool deploy-target do?',
+            options: ['Builds recipe', 'Pushes to git', 'Uploads packages to running target via SSH', 'Deploys to SD card'],
             correct: 2,
-            explanation: 'devtool deploy-target copies the built binaries to a running target device over SSH for testing.',
+            explanation: 'deploy-target uploads packages to a live target via SSH.',
           },
           {
-            question: 'What does "devtool finish" do?',
-            options: [
-              'Deletes the workspace',
-              'Creates a .bbappend and moves changes to your layer',
-              'Shuts down the build system',
-              'Completes the build process',
-            ],
-            correct: 1,
-            explanation: 'devtool finish creates a .bbappend file with your changes and properly integrates the recipe into your specified layer.',
+            question: 'How to generate patches from local changes?',
+            options: ['devtool create-patch', 'devtool diff', 'devtool update-recipe', 'devtool export'],
+            correct: 2,
+            explanation: 'devtool update-recipe generates patches from git commits.',
+          },
+          {
+            question: 'What does devtool reset do?',
+            options: ['Resets build dir', 'Clears sstate', 'Removes recipe from devtool control', 'Deletes workspace'],
+            correct: 2,
+            explanation: 'reset reverts to standard layers and sources.',
+          },
+          {
+            question: 'What does devtool build-image do?',
+            options: ['Builds only devtool recipes', 'Creates dev ISO', 'Builds image including devtool recipe packages', 'Rebuilds base image'],
+            correct: 2,
+            explanation: 'build-image includes devtool workspace recipes in the image.',
           },
         ],
       },
@@ -1118,269 +1008,823 @@ devtool finish myapp meta-mylayer
         content: `
 # SDK Generation
 
-Yocto can generate **Software Development Kits (SDKs)** that allow developers to build applications for the target platform outside of the Yocto build system.
+Self-contained cross-compilation environment — no Poky required.
 
-## Types of SDKs
+## Two Types
 
-### Standard SDK
-A basic cross-compilation toolchain.
+| Type | Command | Use Case |
+|------|---------|----------|
+| Generic | \`bitbake meta-toolchain\` | Bootloader/kernel dev |
+| Image-based | \`bitbake -c populate_sdk <image>\` | Application dev |
+
+Output: self-extracting script in \`$BUILDDIR/tmp/deploy/sdk/\`. Default install: \`/opt/poky/<version>\`
+
+## Adding Packages
 
 \`\`\`bash
-# Generate a standard SDK
-bitbake core-image-minimal -c populate_sdk
+TOOLCHAIN_TARGET_TASK:append = " libssl-dev"
+TOOLCHAIN_HOST_TASK:append = " nativesdk-curl"
 \`\`\`
 
-### Extensible SDK (eSDK)
-An enhanced SDK that includes devtool and can pull in additional packages on demand.
+## Environment Variables
+
+CC, CFLAGS, CXX, CXXFLAGS, LD, LDFLAGS, ARCH, CROSS_COMPILE, GDB, OBJDUMP
+
+## Usage
 
 \`\`\`bash
-# Generate an extensible SDK
-bitbake core-image-minimal -c populate_sdk_ext
-\`\`\`
-
-## Installing the SDK
-
-\`\`\`bash
-# The SDK installer is generated in tmp/deploy/sdk/
-./poky-glibc-x86_64-core-image-minimal-cortexa57-toolchain-4.0.sh
-
-# Default installation path: /opt/poky/4.0
-\`\`\`
-
-## Using the SDK
-
-\`\`\`bash
-# Source the SDK environment
 source /opt/poky/4.0/environment-setup-cortexa57-poky-linux
-
-# Now you can cross-compile
 $CC -o myapp myapp.c
-
-# Or use with autotools/cmake
-./configure $CONFIGURE_FLAGS
-make
-
-# CMake example
-cmake -DCMAKE_TOOLCHAIN_FILE=$OECORE_NATIVE_SYSROOT/usr/share/cmake/OEToolchainConfig.cmake ..
-make
 \`\`\`
-
-## SDK Contents
-
-| Component | Description |
-|-----------|-------------|
-| Cross-compiler | GCC configured for target architecture |
-| Sysroot | Target libraries and headers |
-| Environment script | Sets up paths and variables |
-| Debug tools | GDB, strace configured for target |
-| \`devtool\` (eSDK only) | Recipe development tool |
-
-## Customizing the SDK
-
-\`\`\`bash
-# In your image recipe or local.conf
-
-# Add extra packages to the SDK's target sysroot
-TOOLCHAIN_TARGET_TASK += "libssl-dev libcurl-dev"
-
-# Add extra native tools to the SDK
-TOOLCHAIN_HOST_TASK += "nativesdk-cmake"
-\`\`\`
-
-## Comparing SDK Types
-
-| Feature | Standard SDK | Extensible SDK |
-|---------|-------------|----------------|
-| Size | Smaller | Larger |
-| Includes devtool | No | Yes |
-| Can add packages | No | Yes (on-demand) |
-| Build from source | No | Yes |
-| Use case | Application development | Recipe development |
         `,
         quiz: [
           {
-            question: 'What is the difference between a standard SDK and an extensible SDK?',
-            options: [
-              'Standard is free, extensible is paid',
-              'Extensible includes devtool and can pull in packages on demand',
-              'Standard supports more architectures',
-              'There is no difference',
-            ],
+            question: 'What are the two types of Yocto SDKs?',
+            options: ['Debug and release', 'Generic SDK and image-based SDK', 'Host and target', 'Standard and extensible'],
             correct: 1,
-            explanation: 'The extensible SDK (eSDK) includes devtool and can dynamically pull in additional packages, while the standard SDK is a fixed cross-compilation toolchain.',
+            explanation: 'Generic (meta-toolchain) and image-based (populate_sdk).',
           },
           {
-            question: 'Which command generates a standard SDK?',
-            options: [
-              'bitbake -c sdk',
-              'bitbake core-image-minimal -c populate_sdk',
-              'make sdk',
-              'yocto-sdk generate',
-            ],
-            correct: 1,
-            explanation: 'The command "bitbake <image> -c populate_sdk" generates a standard SDK for the specified image.',
+            question: 'How to generate an image-based SDK?',
+            options: ['bitbake sdk <image>', 'devtool build-sdk', 'bitbake -c populate_sdk <image>', 'bitbake -c sdk'],
+            correct: 2,
+            explanation: '"bitbake -c populate_sdk <image>" generates an image-based SDK.',
           },
           {
-            question: 'How do you set up the SDK environment for cross-compilation?',
-            options: [
-              'Run the SDK binary directly',
-              'Source the environment-setup script',
-              'Set PATH manually',
-              'Install a VSCode extension',
-            ],
+            question: 'What variable adds target packages to SDK?',
+            options: ['SDK_PACKAGES', 'IMAGE_INSTALL', 'TOOLCHAIN_TARGET_TASK', 'DEPENDS'],
+            correct: 2,
+            explanation: 'TOOLCHAIN_TARGET_TASK controls target packages in the SDK.',
+          },
+          {
+            question: 'Where is the generated SDK script?',
+            options: ['$BUILDDIR/sdk/', '$BUILDDIR/tmp/deploy/sdk/', '/opt/poky/sdk/', 'tmp/deploy/images/'],
             correct: 1,
-            explanation: 'You source the environment-setup script provided in the SDK installation directory to set up all cross-compilation variables.',
+            explanation: 'SDK scripts are in $BUILDDIR/tmp/deploy/sdk/.',
+          },
+          {
+            question: 'What does the generic SDK primarily provide?',
+            options: ['Full app development env', 'Cross-compilation toolchain for bootloader/kernel dev', 'Target emulator', 'Package repository'],
+            correct: 1,
+            explanation: 'Generic SDK provides a cross-compilation toolchain for low-level development.',
+          },
+          {
+            question: 'What SDK env variable is for kernel compilation?',
+            options: ['KERNEL_CC', 'TARGET_PREFIX', 'CROSS_COMPILE', 'BUILD_CC'],
+            correct: 2,
+            explanation: 'CROSS_COMPILE is used by the kernel build system.',
           },
         ],
       },
       {
         id: 'debugging',
-        title: 'Debugging & Troubleshooting',
+        title: 'Debugging',
         content: `
-# Debugging & Troubleshooting
+# Debugging
 
-When things go wrong in Yocto (and they will!), knowing how to debug effectively is essential.
+## Log and Run Files
 
-## Common Build Errors
+In recipe temp directory: \`run.do_<task>\` (generated script), \`log.do_<task>\` (output)
 
-### Fetch Failures
-\`\`\`bash
-# Check if the URL is accessible
-bitbake myrecipe -c fetch -v
-
-# Use a mirror or pre-downloaded sources
-PREMIRRORS:prepend = "\\
-    git://.*/.* https://my-mirror.com/\\n \\
-    https://.*/.* https://my-mirror.com/\\n"
-\`\`\`
-
-### Compilation Errors
-\`\`\`bash
-# Find the build log
-cat tmp/work/<arch>/<recipe>/<version>/temp/log.do_compile
-
-# Open a devshell to debug interactively
-bitbake myrecipe -c devshell
-\`\`\`
-
-### Packaging Errors
-\`\`\`bash
-# Check what files are being packaged
-bitbake myrecipe -c package -v
-
-# View the packaging log
-cat tmp/work/<arch>/<recipe>/<version>/temp/log.do_package
-\`\`\`
-
-## Key Debugging Tools
-
-### devshell
-Opens an interactive shell in the recipe's build environment:
-\`\`\`bash
-bitbake myrecipe -c devshell
-# You're now in the source directory with all env vars set
-\`\`\`
-
-### Environment Inspection
-\`\`\`bash
-# Show all variables for a recipe
-bitbake myrecipe -e | grep "^VARIABLE="
-
-# Show the recipe file being used
-bitbake myrecipe -e | grep "^FILE="
-
-# Show all tasks for a recipe
-bitbake myrecipe -c listtasks
-\`\`\`
-
-### Task Logs
-All task logs are stored in:
-\`\`\`
-tmp/work/<arch>/<recipe>/<version>/temp/
-├── log.do_fetch
-├── log.do_compile
-├── log.do_install
-├── log.do_package
-└── run.do_compile    # The actual script that was run
-\`\`\`
-
-## Dependency Analysis
+## bitbake-getvar
 
 \`\`\`bash
-# Show recipe dependencies
-bitbake myrecipe -g
-
-# Generate a dependency graph
-bitbake myrecipe -g -u taskexp  # Opens task explorer
-
-# Check reverse dependencies
-bitbake myrecipe -g
-cat pn-buildlist
+bitbake-getvar IMAGE_INSTALL          # Global
+bitbake-getvar -r ncurses SRC_URI     # Per-recipe
 \`\`\`
 
-## Frequently Encountered Issues
-
-| Issue | Solution |
-|-------|----------|
-| "Nothing provides X" | Add the missing recipe/layer providing X |
-| "Multiple providers for X" | Set PREFERRED_PROVIDER_X |
-| QA Errors (file-rdeps) | Add missing runtime dependencies |
-| Sstate cache misses | Check SSTATE_DIR path and permissions |
-| "Taskhash mismatch" | Clean sstate: \`bitbake recipe -c cleansstate\` |
-| Disk space errors | Clean tmp/ or add more storage |
-
-## Performance Tips
+## Build History
 
 \`\`\`bash
-# Use tmpfs for build (if you have enough RAM)
-TMPDIR = "/dev/shm/yocto-tmp"
+INHERIT += "buildhistory"
+BUILDHISTORY_COMMIT = "1"
+\`\`\`
+Use \`buildhistory-diff\` to compare builds.
 
-# Share downloads and sstate across builds
-DL_DIR = "/shared/downloads"
-SSTATE_DIR = "/shared/sstate-cache"
+## oe-pkgdata-util
 
-# Tune parallel execution
-BB_NUMBER_THREADS = "8"
-PARALLEL_MAKE = "-j 8"
+\`\`\`bash
+oe-pkgdata-util find-path /bin/busybox     # Which package?
+oe-pkgdata-util list-pkg-files busybox     # What files?
+oe-pkgdata-util lookup-recipe busybox      # Which recipe?
+\`\`\`
 
-# Enable hash equivalence server
-BB_HASHSERVE = "auto"
-BB_SIGNATURE_HANDLER = "OEEquivHash"
+## Source Fetching Order
+
+DL_DIR -> PREMIRRORS -> upstream SRC_URI -> MIRRORS
+        `,
+        quiz: [
+          {
+            question: 'What file has the compile task output log?',
+            options: ['compile.log', 'output.do_compile', 'log.do_compile', 'build.log'],
+            correct: 2,
+            explanation: 'Task logs are log.do_<taskname>.',
+          },
+          {
+            question: 'What does oe-pkgdata-util find-path /bin/busybox show?',
+            options: ['Source path', 'Which package ships /bin/busybox', 'Recipe path', 'Build directory'],
+            correct: 1,
+            explanation: 'find-path shows which package ships a file.',
+          },
+          {
+            question: 'How to enable build history?',
+            options: ['BUILDHISTORY = "1"', 'bitbake --history', 'INHERIT += "buildhistory"', 'enable-history in bblayers.conf'],
+            correct: 2,
+            explanation: 'Add INHERIT += "buildhistory" to local.conf.',
+          },
+          {
+            question: 'Source fetching order?',
+            options: ['SRC_URI -> MIRRORS -> DL_DIR', 'PREMIRRORS -> SRC_URI -> DL_DIR', 'DL_DIR -> PREMIRRORS -> SRC_URI -> MIRRORS', 'MIRRORS -> PREMIRRORS -> DL_DIR'],
+            correct: 2,
+            explanation: 'DL_DIR first, then PREMIRRORS, upstream SRC_URI, then MIRRORS.',
+          },
+          {
+            question: 'What does run.do_compile contain?',
+            options: ['Compiler binary', 'Source list', 'The generated script executed for compile', 'Error messages'],
+            correct: 2,
+            explanation: 'run.do_<task> contains the shell script BitBake executed.',
+          },
+          {
+            question: 'How to dump a recipe-specific variable?',
+            options: ['bitbake --show-var', 'echo $VAR', 'bitbake-getvar -r <recipe> <VAR>', 'bitbake -D'],
+            correct: 2,
+            explanation: 'bitbake-getvar -r inspects per-recipe variable values.',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'variables-overrides',
+    title: 'Variables & Overrides',
+    description: 'Understand variable operators and the overrides system for conditional configuration.',
+    icon: '🔤',
+    lessons: [
+      {
+        id: 'variable-operators',
+        title: 'Variable Operators',
+        content: `
+# Variable Operators
+
+Variables: uppercase, values are strings. Global scope in .conf, local scope in .bb/.bbappend/.bbclass.
+
+## Operators
+
+| Operator | Behavior |
+|----------|----------|
+| \`=\` | Expansion when variable is used |
+| \`:=\` | Immediate expansion at parse time |
+| \`+=\` | Append with space |
+| \`=+\` | Prepend with space |
+| \`.=\` | Append without space |
+| \`=.\` | Prepend without space |
+| \`?=\` | Default (only if not set) |
+| \`??=\` | Weak default (even lower priority than ?=) |
+
+## Deferred vs Immediate
+
+\`\`\`bash
+# With = (deferred):
+COLOUR = "blue"
+SKY = "\\\${COLOUR}"
+COLOUR = "grey"
+# SKY -> "grey"
+
+# With := (immediate):
+COLOUR = "blue"
+SKY := "\\\${COLOUR}"
+COLOUR = "grey"
+# SKY -> "blue"
+\`\`\`
+
+## Caveat
+
+\`\`\`bash
+VAR ?= "a"; VAR += "b"  # Result: "a b"
+VAR += "b"; VAR ?= "a"  # Result: " b" (?= ignored)
+\`\`\`
+
+**Best practice:** Avoid +=, =+, .=, =. in local.conf — use overrides instead.
+        `,
+        quiz: [
+          {
+            question: 'What does ?= do?',
+            options: ['Forces assignment', 'Assigns only if not already set', 'Locks variable', 'Conditional append'],
+            correct: 1,
+            explanation: '?= only assigns if the variable has not been set yet.',
+          },
+          {
+            question: 'Difference between += and .= ?',
+            options: ['+= is faster', '+= only in recipes', '+= adds space, .= does not', 'No difference'],
+            correct: 2,
+            explanation: '+= appends with a space, .= concatenates directly.',
+          },
+          {
+            question: 'When does := expand?',
+            options: ['When used', 'Immediately at parse time', 'At build time', 'During fetch'],
+            correct: 1,
+            explanation: ':= resolves references immediately at parse time.',
+          },
+          {
+            question: 'Result of VAR = "hello" then VAR += "world"?',
+            options: ['"helloworld"', '"hello world"', '"world hello"', 'Error'],
+            correct: 1,
+            explanation: '+= appends with a space: "hello world".',
+          },
+          {
+            question: 'Why avoid += in local.conf?',
+            options: ['Slower', 'Deprecated', 'Parsing order unpredictable, causes unexpected values', 'Only works in recipes'],
+            correct: 2,
+            explanation: 'Parsing order is unpredictable in config files; use :append/:prepend instead.',
+          },
+          {
+            question: 'How does ??= differ from ?=?',
+            options: ['Assigns twice', 'Same as ?=', 'Only assigns if not set by any operator including ?=', 'Forces assignment'],
+            correct: 2,
+            explanation: '??= has lower priority than ?= — only effective if nothing else set the variable.',
+          },
+        ],
+      },
+      {
+        id: 'overrides-system',
+        title: 'Overrides System',
+        content: `
+# Overrides System
+
+Overrides modify variables at **expansion time** (when read) — predictable unlike parse-time operators.
+
+## :append, :prepend, :remove
+
+\`\`\`bash
+IMAGE_INSTALL:append = " dropbear"     # Note leading space!
+PATH:prepend = "/new/path:"
+IMAGE_INSTALL:remove = "i2c-tools"     # Removes all occurrences
+\`\`\`
+
+## Conditional Overrides
+
+\`\`\`bash
+KERNEL_DEVICETREE:beaglebone = "am335x-bone.dtb"  # Only for beaglebone
+\`\`\`
+
+## Combining
+
+\`\`\`bash
+IMAGE_INSTALL:append:beaglebone = " i2c-tools"  # Append only for beaglebone
+\`\`\`
+
+## Application Order
+
+1. Regular operators (parsing order)
+2. :append
+3. :prepend
+4. :remove
+
+## Syntax Change (Honister 3.4)
+
+Old: \`IMAGE_INSTALL_append\` -> New: \`IMAGE_INSTALL:append\` (no retrocompatibility)
+        `,
+        quiz: [
+          {
+            question: 'What does IMAGE_INSTALL:append = " dropbear" do?',
+            options: ['Replaces IMAGE_INSTALL', 'Adds " dropbear" at expansion time', 'Creates new variable', 'Only during fetch'],
+            correct: 1,
+            explanation: ':append adds to the end of the variable when it is read.',
+          },
+          {
+            question: 'Why the leading space in :append = " dropbear"?',
+            options: ['Syntax requirement', ':append does not add space automatically', 'Space is ignored', 'Prevents duplicates'],
+            correct: 1,
+            explanation: ':append concatenates directly — you must include your own separator.',
+          },
+          {
+            question: 'What does :remove do?',
+            options: ['Removes variable entirely', 'Removes first occurrence', 'Removes all occurrences of value', 'Removes from OVERRIDES'],
+            correct: 2,
+            explanation: ':remove filters out all occurrences.',
+          },
+          {
+            question: 'How to set a variable only for beaglebone?',
+            options: ['VAR_beaglebone', 'if MACHINE==beaglebone', 'VAR:beaglebone = "value"', 'VAR[beaglebone]'],
+            correct: 2,
+            explanation: 'Use colon syntax: VAR:beaglebone = "value".',
+          },
+          {
+            question: 'Override application order?',
+            options: [':remove first', ':prepend first', 'Operators, :append, :prepend, :remove', 'All simultaneous'],
+            correct: 2,
+            explanation: 'Regular operators first, then :append, :prepend, :remove.',
+          },
+          {
+            question: 'What changed at Honister (3.4)?',
+            options: ['Overrides removed', 'Underscores replaced with colons', 'Colons replaced with underscores', 'New OVERRIDES variable'],
+            correct: 1,
+            explanation: '_append became :append with no backward compatibility.',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'bsp-distro-layers',
+    title: 'BSP & Distro Layers',
+    description: 'Configure hardware support and distribution policies.',
+    icon: '🏗️',
+    lessons: [
+      {
+        id: 'bsp-layers',
+        title: 'BSP Layers',
+        content: `
+# BSP Layers
+
+Hold metadata to support specific hardware. Named \`meta-<bsp_name>\`.
+
+## Provide
+
+- Machine config files (conf/machine/*.conf)
+- Custom kernel/bootloader recipes
+- Hardware drivers and modules
+- Pre-built firmware
+
+## Machine Configuration
+
+Filename = MACHINE value. Key variables:
+
+| Variable | Purpose | Example |
+|----------|---------|---------|
+| TARGET_ARCH | Architecture | arm, aarch64 |
+| PREFERRED_PROVIDER_virtual/kernel | Default kernel | linux-yocto |
+| MACHINE_FEATURES | Hardware features | usbgadget usbhost wifi |
+| SERIAL_CONSOLES | Console speed;device | 115200;ttyS0 |
+| KERNEL_IMAGETYPE | Kernel format | zImage |
+
+## U-Boot Variables
+
+SPL_BINARY, UBOOT_SUFFIX, UBOOT_MACHINE, UBOOT_ENTRYPOINT, UBOOT_LOADADDRESS
+
+## Example
+
+\`\`\`bash
+# conf/machine/mymachine.conf
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-custom"
+KERNEL_IMAGETYPE = "zImage"
+SERIAL_CONSOLES = "115200;ttyAMA0"
+MACHINE_FEATURES = "usbgadget usbhost vfat"
 \`\`\`
         `,
         quiz: [
           {
-            question: 'Where are BitBake task logs stored?',
-            options: [
-              'In the recipe directory',
-              'In tmp/work/<arch>/<recipe>/<version>/temp/',
-              'In /var/log/bitbake/',
-              'In the layer\'s log directory',
-            ],
+            question: 'Where are machine configs in a BSP layer?',
+            options: ['recipes-bsp/', 'conf/machine/*.conf', 'conf/distro/', 'conf/layer.conf'],
             correct: 1,
-            explanation: 'Task logs (log.do_compile, log.do_install, etc.) are stored in the tmp/work/<arch>/<recipe>/<version>/temp/ directory.',
+            explanation: 'Machine configs are at conf/machine/*.conf.',
           },
           {
-            question: 'What does "bitbake myrecipe -c devshell" do?',
-            options: [
-              'Starts a development server',
-              'Opens an interactive shell in the recipe\'s build environment',
-              'Installs development tools',
-              'Creates a developer account',
-            ],
+            question: 'What does MACHINE_FEATURES define?',
+            options: ['Software packages', 'Hardware features provided by the machine', 'Kernel modules', 'Build capabilities'],
             correct: 1,
-            explanation: 'devshell opens an interactive terminal in the recipe\'s source directory with all build environment variables set, allowing hands-on debugging.',
+            explanation: 'MACHINE_FEATURES lists hardware capabilities like usbgadget, wifi, screen.',
           },
           {
-            question: 'How do you resolve "Nothing provides X" errors?',
-            options: [
-              'Delete the tmp directory',
-              'Add the missing recipe or layer that provides X',
-              'Increase BB_NUMBER_THREADS',
-              'Reinstall BitBake',
-            ],
+            question: 'BSP layer naming convention?',
+            options: ['bsp-<name>', 'meta-<bsp_name>', 'layer-<bsp>', '<bsp>-meta'],
             correct: 1,
-            explanation: 'This error means a dependency is missing. You need to find and add the recipe or layer that provides the required package.',
+            explanation: 'BSP layers use meta-<bsp_name> naming.',
+          },
+          {
+            question: 'What does SERIAL_CONSOLES configure?',
+            options: ['Serial drivers', 'Console speed and device for getty', 'Debug output', 'Kernel parameters'],
+            correct: 1,
+            explanation: 'SERIAL_CONSOLES sets baud rate and device (e.g. 115200;ttyS0).',
+          },
+          {
+            question: 'What variable sets kernel image format?',
+            options: ['KERNEL_FORMAT', 'KERNEL_IMAGETYPE', 'IMAGE_TYPE', 'KERNEL_OUTPUT'],
+            correct: 1,
+            explanation: 'KERNEL_IMAGETYPE defines the format (zImage, Image, etc.).',
+          },
+          {
+            question: 'What does UBOOT_MACHINE specify?',
+            options: ['Machine name', 'U-Boot build config target', 'Boot partition', 'Kernel command line'],
+            correct: 1,
+            explanation: 'UBOOT_MACHINE is the make target for U-Boot configuration.',
+          },
+        ],
+      },
+      {
+        id: 'distro-config',
+        title: 'Distro Configuration',
+        content: `
+# Distro Configuration
+
+Defines software policies: init system, C library, display system.
+
+## Config File
+
+\`\`\`bash
+# conf/distro/mydistro.conf
+require conf/distro/poky.conf
+DISTRO = "mydistro"
+DISTRO_NAME = "My Distribution"
+DISTRO_VERSION = "1.0"
+\`\`\`
+
+## DISTRO_FEATURES
+
+\`\`\`bash
+DISTRO_FEATURES = "bluetooth wifi systemd usrmerge"
+\`\`\`
+
+COMBINED_FEATURES = intersection of MACHINE_FEATURES and DISTRO_FEATURES.
+
+## Toolchain
+
+\`\`\`bash
+TCMODE = "default"   # Includes tcmode-\\\${TCMODE}.inc
+\`\`\`
+
+## Templates
+
+Sample files in meta-poky/conf/templates/default/. TEMPLATECONF variable points to template directory. \`bitbake-layers save-build-conf\` saves current config.
+
+**Best practice:** Keep distro layer separate from BSP and custom layers.
+        `,
+        quiz: [
+          {
+            question: 'Where is a distro config file?',
+            options: ['conf/machine/', 'conf/distro/<distro>.conf', 'conf/layer.conf', 'local.conf'],
+            correct: 1,
+            explanation: 'Distro configs are at conf/distro/<distro>.conf.',
+          },
+          {
+            question: 'What does DISTRO_FEATURES control?',
+            options: ['Hardware capabilities', 'Software features the distribution enables', 'Kernel modules', 'Package versions'],
+            correct: 1,
+            explanation: 'DISTRO_FEATURES lists software features like bluetooth, systemd.',
+          },
+          {
+            question: 'What is COMBINED_FEATURES?',
+            options: ['All features combined', 'Intersection of MACHINE_FEATURES and DISTRO_FEATURES', 'User-defined features', 'Optional features'],
+            correct: 1,
+            explanation: 'Features present in both MACHINE_FEATURES and DISTRO_FEATURES.',
+          },
+          {
+            question: 'What does TCMODE control?',
+            options: ['Build mode', 'Toolchain selection', 'Test config', 'Task count'],
+            correct: 1,
+            explanation: 'TCMODE selects the toolchain configuration.',
+          },
+          {
+            question: 'What does TEMPLATECONF do?',
+            options: ['Configures recipe templates', 'Points to directory with config templates', 'Sets template variables', 'Defines distro templates'],
+            correct: 1,
+            explanation: 'TEMPLATECONF points to sample config files for new build directories.',
+          },
+          {
+            question: 'Best practice for distro layers?',
+            options: ['Combine with BSP', 'Keep separate from BSP and custom layers', 'Always inherit Poky', 'Put in local.conf'],
+            correct: 1,
+            explanation: 'Keep the distro layer separate for cleaner organization.',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'licensing-compliance',
+    title: 'Licensing & Compliance',
+    description: 'Manage licenses, track compliance, and generate SBoMs.',
+    icon: '📜',
+    lessons: [
+      {
+        id: 'license-management',
+        title: 'License Management',
+        content: `
+# License Management
+
+## LICENSE Variable
+
+Uses SPDX identifiers: GPL-2.0-only, MIT, BSD-3-Clause, Apache-2.0, etc.
+
+## LIC_FILES_CHKSUM
+
+Mandatory (unless LICENSE = "CLOSED"). Tracks license integrity:
+
+\`\`\`bash
+LIC_FILES_CHKSUM = "file://COPYING;md5=abc..."
+LIC_FILES_CHKSUM = "file://main.c;beginline=3;endline=21;md5=..."
+LIC_FILES_CHKSUM = "file://\\\${COMMON_LICENSE_DIR}/MIT;md5=..."
+\`\`\`
+
+If checksum changes -> build fails -> forces review.
+
+## Excluding Licenses
+
+\`\`\`bash
+INCOMPATIBLE_LICENSE = "GPL-3.0* LGPL-3.0* AGPL-3.0*"
+\`\`\`
+
+## Commercial Licenses
+
+\`\`\`bash
+# In recipe: LICENSE_FLAGS = "commercial"
+# In local.conf: LICENSE_FLAGS_ACCEPTED = "commercial_gst-plugins-ugly"
+\`\`\`
+
+## License Manifest
+
+At \`$BUILDDIR/tmp/deploy/licenses/<image>/license.manifest\`
+
+## Source Archiver
+
+\`\`\`bash
+INHERIT += "archiver"
+ARCHIVER_MODE[src] = "configured"
+\`\`\`
+        `,
+        quiz: [
+          {
+            question: 'What format does LICENSE use?',
+            options: ['Custom Yocto', 'SPDX identifiers', 'GPL shorthand', 'Numerical codes'],
+            correct: 1,
+            explanation: 'LICENSE uses standardized SPDX identifiers.',
+          },
+          {
+            question: 'What if a license checksum changes?',
+            options: ['Warning only', 'Build fails, recipe must be updated', 'Auto-updated', 'Package excluded'],
+            correct: 1,
+            explanation: 'Build fails, forcing review and acknowledgment.',
+          },
+          {
+            question: 'How to exclude GPLv3 packages?',
+            options: ['EXCLUDE_LICENSE', 'BANNED_LICENSE', 'INCOMPATIBLE_LICENSE = "GPL-3.0*"', 'NO_GPL3 = "1"'],
+            correct: 2,
+            explanation: 'Use INCOMPATIBLE_LICENSE with SPDX patterns.',
+          },
+          {
+            question: 'What does LICENSE_FLAGS = "commercial" mean?',
+            options: ['Package is free', 'Requires payment', 'Must be explicitly accepted to build', 'Proprietary only'],
+            correct: 2,
+            explanation: 'Commercial packages must be listed in LICENSE_FLAGS_ACCEPTED.',
+          },
+          {
+            question: 'Where is the license manifest?',
+            options: ['conf/licenses.txt', '$BUILDDIR/tmp/deploy/licenses/<image>/license.manifest', 'tmp/deploy/images/', 'meta/licenses/'],
+            correct: 1,
+            explanation: 'License manifest is at tmp/deploy/licenses/<image>/license.manifest.',
+          },
+          {
+            question: 'What does the archiver class do?',
+            options: ['Compresses images', 'Generates source tarballs for license compliance', 'Creates binary archives', 'Manages git repos'],
+            correct: 1,
+            explanation: 'Archiver generates source tarballs for GPL compliance.',
+          },
+        ],
+      },
+      {
+        id: 'spdx-sbom',
+        title: 'SPDX & Software Bill of Materials',
+        content: `
+# SPDX & Software Bill of Materials
+
+## What SBoM Describes
+
+Sources, licenses, dependencies, and vulnerability fixes for all components. Standard SPDX format.
+
+## Why It Matters
+
+- License compliance assessment
+- Vulnerability assessment (CVEs)
+- Supply chain security (increasingly mandated by governments)
+
+## Enabling SPDX 3.0
+
+\`\`\`bash
+INHERIT += "create-spdx-3.0"
+INHERIT:remove = "create-spdx"
+\`\`\`
+
+Output: JSON in \`tmp/deploy/images/MACHINE/\`
+
+## Optional Variables
+
+| Variable | Purpose |
+|----------|---------|
+| SPDX_PRETTY | Human-readable formatting |
+| SPDX_ARCHIVE_PACKAGED | Archives of packaged files |
+| SPDX_INCLUDE_SOURCES | Source file descriptions |
+| SPDX_ARCHIVE_SOURCES | Source archives |
+        `,
+        quiz: [
+          {
+            question: 'What does SPDX SBoM describe?',
+            options: ['Only licenses', 'Sources, licenses, dependencies, and vulnerability fixes', 'Only source locations', 'Only binary hashes'],
+            correct: 1,
+            explanation: 'SBoM comprehensively describes sources, licenses, dependencies, and changes.',
+          },
+          {
+            question: 'How to enable SPDX 3.0?',
+            options: ['SPDX_VERSION = "3.0"', 'INHERIT += "create-spdx-3.0"', 'enable-spdx3', 'bitbake --spdx'],
+            correct: 1,
+            explanation: 'Add INHERIT += "create-spdx-3.0" and remove the default 2.2.',
+          },
+          {
+            question: 'Where is SPDX output?',
+            options: ['tmp/deploy/licenses/', 'tmp/deploy/images/MACHINE/', 'conf/spdx/', 'sstate-cache/'],
+            correct: 1,
+            explanation: 'JSON SPDX output is in tmp/deploy/images/MACHINE/.',
+          },
+          {
+            question: 'What does SPDX_PRETTY do?',
+            options: ['Human-readable formatting', 'PDF report', 'Color output', 'Web dashboard'],
+            correct: 0,
+            explanation: 'SPDX_PRETTY adds formatting for readability.',
+          },
+          {
+            question: 'Why are SBoMs increasingly important?',
+            options: ['Replace licenses', 'Speed up builds', 'Governments mandate supply chain transparency', 'Required by BitBake'],
+            correct: 2,
+            explanation: 'SBoMs support mandatory supply chain security requirements.',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'package-management-automation',
+    title: 'Package Management & Automation',
+    description: 'Runtime package management and build automation with kas and repo.',
+    icon: '📦',
+    lessons: [
+      {
+        id: 'runtime-package-management',
+        title: 'Runtime Package Management',
+        content: `
+# Runtime Package Management
+
+Binary packages can be used for runtime updates on the target.
+
+## Package Format
+
+\`\`\`bash
+PACKAGE_CLASSES = "package_ipk"   # or package_rpm, package_deb
+\`\`\`
+
+Poky defaults to RPM, OE-Core defaults to IPK.
+
+## Enabling on Target
+
+Add \`package-management\` to IMAGE_FEATURES, or manually add \`opkg\` to IMAGE_INSTALL.
+
+## opkg Commands
+
+| Command | Purpose |
+|---------|---------|
+| opkg update | Fetch package databases |
+| opkg list | List available packages |
+| opkg install <pkg> | Install package |
+| opkg upgrade | Upgrade all |
+
+## Package Server
+
+Serve via HTTP. Configure feeds:
+
+\`\`\`bash
+PACKAGE_FEED_URIS = "http://packages.example.net"
+PACKAGE_FEED_BASE_PATHS = "ipk"
+PACKAGE_FEED_ARCHS = "all armv7a beaglebone"
+\`\`\`
+
+**Important:** Run \`bitbake package-index\` after building new packages (run alone, not with other targets).
+        `,
+        quiz: [
+          {
+            question: 'What controls the package format?',
+            options: ['PACKAGE_FORMAT', 'IMAGE_PKGTYPE', 'PACKAGE_CLASSES', 'PKG_TYPE'],
+            correct: 2,
+            explanation: 'PACKAGE_CLASSES controls format: package_rpm, package_deb, package_ipk.',
+          },
+          {
+            question: 'What updates the package DB on target?',
+            options: ['opkg refresh', 'opkg update', 'opkg sync', 'opkg fetch'],
+            correct: 1,
+            explanation: 'opkg update fetches package databases from remote servers.',
+          },
+          {
+            question: 'Why run bitbake package-index?',
+            options: ['Compile packages', 'Install on target', 'Update package database after building new packages', 'Generate rootfs'],
+            correct: 2,
+            explanation: 'package-index regenerates the database that opkg uses.',
+          },
+          {
+            question: 'Three supported package formats?',
+            options: ['TAR, ZIP, PKG', 'RPM, DEB, IPK', 'RPM, APK, DEB', 'IPK, APK, TAR'],
+            correct: 1,
+            explanation: 'Yocto supports RPM, DEB, and IPK.',
+          },
+          {
+            question: 'How to add package management to an image?',
+            options: ['Install opkg after boot', 'Add package-management to IMAGE_FEATURES', 'PACKAGE_MANAGER=true', 'Add to DISTRO_FEATURES'],
+            correct: 1,
+            explanation: '"package-management" in IMAGE_FEATURES installs package tools on target.',
+          },
+          {
+            question: 'What does PACKAGE_FEED_URIS configure?',
+            options: ['Local dirs', 'URL(s) where target fetches packages', 'Build order', 'Signing keys'],
+            correct: 1,
+            explanation: 'PACKAGE_FEED_URIS defines package server URLs for the target.',
+          },
+        ],
+      },
+      {
+        id: 'automation-kas-repo',
+        title: 'Automating with kas & repo',
+        content: `
+# Automating with kas & repo
+
+OE/BitBake leaves code distribution and release management to external tools.
+
+## Google repo
+
+Manages multiple git repos with an XML manifest:
+
+\`\`\`bash
+repo init -u https://git.example.net/manifest.git
+repo sync -j4
+\`\`\`
+
+Release: set revisions to commit hashes in manifest and tag it.
+
+## kas
+
+By Siemens — single command to fetch, configure, and build:
+
+\`\`\`yaml
+header:
+  version: 8
+  machine: mymachine
+  distro: mydistro
+target:
+  - myimage
+repos:
+  meta-custom:
+  openembedded-core:
+    url: "https://git.openembedded.org/openembedded-core"
+    branch: scarthgap
+    layers:
+      meta:
+\`\`\`
+
+\`\`\`bash
+kas build meta-custom/mymachine.yaml
+kas shell config.yml -c 'bitbake myapp'
+\`\`\`
+
+## Comparison
+
+| Feature | repo | kas |
+|---------|------|-----|
+| Config | XML manifest | YAML/JSON |
+| Sets up local.conf | No | Yes |
+| Docker support | No | Yes |
+| Build integration | Fetch only | Fetch + build |
+        `,
+        quiz: [
+          {
+            question: 'What does kas do?',
+            options: ['Manages git only', 'Fetches, configures, and builds from a single config', 'Replaces BitBake', 'Installs SDKs'],
+            correct: 1,
+            explanation: 'kas automates the entire fetch-configure-build workflow.',
+          },
+          {
+            question: 'What config format does kas use?',
+            options: ['XML', 'YAML or JSON', 'INI', 'TOML'],
+            correct: 1,
+            explanation: 'kas uses YAML or JSON configuration files.',
+          },
+          {
+            question: 'Command to build with kas?',
+            options: ['kas run', 'kas make', 'kas build <config.yaml>', 'kas compile'],
+            correct: 2,
+            explanation: '"kas build <config.yaml>" does the full build.',
+          },
+          {
+            question: 'What is Google repo for in Yocto?',
+            options: ['Building images', 'Managing multiple git repos with a manifest', 'Running BitBake', 'Creating recipes'],
+            correct: 1,
+            explanation: 'repo manages multiple git repositories using an XML manifest.',
+          },
+          {
+            question: 'Reproducible release with repo?',
+            options: ['Use branch names', 'Set revision to commit hashes and tag manifest', 'Freeze sstate', 'Export env variables'],
+            correct: 1,
+            explanation: 'Pin each project to a commit hash in the manifest, then tag it.',
+          },
+          {
+            question: 'kas advantage over manual setup?',
+            options: ['Faster compilation', 'Better cross-compilation', 'Single command to fetch, configure, and build', 'Smaller images'],
+            correct: 2,
+            explanation: 'kas automates the entire workflow with one command.',
           },
         ],
       },
