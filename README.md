@@ -1,16 +1,75 @@
-# React + Vite
+# Yocto Learning App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive learning platform for the Yocto Project, featuring structured lessons, quizzes, and progress tracking. Built with React + Vite and deployed via Docker Compose.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 9 learning modules, 21 lessons, 130 quiz questions
+- Markdown-based lesson content with code highlighting and tables
+- Real-time progress tracking (persisted in localStorage)
+- Responsive design for desktop and mobile
 
-## React Compiler
+## Screenshots
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Home Page
+![Home Page](docs/images/home.png)
 
-## Expanding the ESLint configuration
+### Module Overview
+![Module Overview](docs/images/modules.png)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Module Detail
+![Module Detail](docs/images/module-detail.png)
+
+### Lesson Page
+![Lesson Page](docs/images/lesson.png)
+
+## Getting Started with Docker Compose
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Start the App
+
+1. Clone the repository:
+
+```bash
+git clone <repo-url>
+cd yocto-learning-app
+```
+
+2. Build and start the container:
+
+```bash
+docker compose up -d --build
+```
+
+3. Open your browser at [http://localhost:3000](http://localhost:3000)
+
+### Stop the App
+
+```bash
+docker compose down
+```
+
+### Rebuild (after code changes)
+
+```bash
+docker compose up -d --build
+```
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+```
+
+The dev server starts at `http://localhost:5173` by default.
+
+## Tech Stack
+
+- **Frontend:** React 19 + Vite 7
+- **Routing:** React Router (HashRouter)
+- **Deployment:** Docker (multi-stage build) + Nginx
+- **Styling:** Plain CSS (no UI framework)
