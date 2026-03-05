@@ -1,6 +1,6 @@
 # Yocto Learning App
 
-An interactive learning platform for the Yocto Project, featuring structured lessons, quizzes, and progress tracking. Built with React + Vite and deployed via Docker Compose.
+An interactive learning platform for the Yocto Project, built with React + Vite and deployed via Docker Compose. The educational content is primarily derived from [Bootlin's Yocto training materials](https://bootlin.com/training/yocto/) (CC BY-SA 3.0).
 
 ## Features
 
@@ -22,6 +22,9 @@ An interactive learning platform for the Yocto Project, featuring structured les
 
 ### Lesson Page
 ![Lesson Page](docs/images/lesson.png)
+
+### About / License
+![About Page](docs/images/about.png)
 
 ## Getting Started with Docker Compose
 
@@ -73,3 +76,10 @@ The dev server starts at `http://localhost:5173` by default.
 - **Routing:** React Router (HashRouter)
 - **Deployment:** Docker (multi-stage build) + Nginx
 - **Styling:** Plain CSS (no UI framework)
+
+## License
+
+- **Application source code** is licensed under the [MIT License](LICENSE).
+- **Educational content** (lessons, quizzes, exercises) is derived from [Bootlin's Yocto training materials](https://bootlin.com/training/yocto/) and licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Copyright 2004-2025 [Bootlin](https://bootlin.com).
+
+See the [About page](src/pages/About.jsx) or the [LICENSE](LICENSE) file for full details.
