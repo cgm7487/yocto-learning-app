@@ -42,7 +42,7 @@ src/
 
 ### Bootlin — Yocto Project and OpenEmbedded Training
 
-本專案的課程內容主要參考 Bootlin 的 Yocto/OpenEmbedded 培訓教材。
+The course content in this project is primarily based on Bootlin's Yocto/OpenEmbedded training materials.
 
 | Item | Link |
 |------|------|
@@ -53,12 +53,12 @@ src/
 
 #### License
 
-Bootlin 的培訓教材以 **Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)** 授權釋出。
+Bootlin's training materials are released under the **Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)** license.
 
 - License full text: <https://creativecommons.org/licenses/by-sa/3.0/>
-- 你可以自由地**分享**（複製、散佈、傳輸）及**改作**這些教材
-- 必須**標示出處**（Attribution）— 註明原作者為 Bootlin
-- 若你改作或衍生新作品，必須以**相同授權條款**釋出（ShareAlike）
+- You are free to **share** (copy, distribute, transmit) and **adapt** (remix, transform) the materials
+- You must give **attribution** — credit Bootlin as the original author
+- If you remix or build upon the materials, you must distribute your contributions under the **same license** (ShareAlike)
 
 > © Bootlin, authored by their engineering team.
 > Training materials released under CC BY-SA 3.0.
