@@ -38,6 +38,33 @@ src/
 
 ---
 
+## References
+
+### Bootlin — Yocto Project and OpenEmbedded Training
+
+本專案的課程內容主要參考 Bootlin 的 Yocto/OpenEmbedded 培訓教材。
+
+| Item | Link |
+|------|------|
+| Training page | <https://bootlin.com/training/yocto> |
+| Slides (PDF) | <https://bootlin.com/doc/training/yocto/yocto-slides.pdf> |
+| Lab instructions (PDF) | <https://bootlin.com/doc/training/yocto/yocto-labs.pdf> |
+| Source (GitHub) | <https://github.com/bootlin/training-materials> |
+
+#### License
+
+Bootlin 的培訓教材以 **Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)** 授權釋出。
+
+- License full text: <https://creativecommons.org/licenses/by-sa/3.0/>
+- 你可以自由地**分享**（複製、散佈、傳輸）及**改作**這些教材
+- 必須**標示出處**（Attribution）— 註明原作者為 Bootlin
+- 若你改作或衍生新作品，必須以**相同授權條款**釋出（ShareAlike）
+
+> © Bootlin, authored by their engineering team.
+> Training materials released under CC BY-SA 3.0.
+
+---
+
 ## Issues Encountered & Fixes
 
 ### 1. Blank page — BrowserRouter fails on non-root paths
