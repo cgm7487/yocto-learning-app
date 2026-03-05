@@ -27,6 +27,12 @@ export default function Header() {
           >
             Modules
           </Link>
+          <Link
+            to="/sandbox"
+            className={`nav-link ${location.pathname === '/sandbox' ? 'active' : ''}`}
+          >
+            Sandbox
+          </Link>
         </nav>
         <div className="header-progress">
           <div className="progress-ring">

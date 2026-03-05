@@ -65,6 +65,34 @@ Bootlin's training materials are released under the **Creative Commons Attributi
 
 ---
 
+## Interactive Sandbox
+
+The `/sandbox` page provides hands-on exercises where users write code in an in-browser editor and validate it against pattern-based checks.
+
+### Exercise Categories
+
+| Category | Exercises | Difficulty |
+|----------|-----------|------------|
+| BitBake Recipes | Hello World, Git fetch, Image recipe, .bbappend, systemd service | Beginner - Advanced |
+| Device Tree | DTS for ARM board (UART, I2C, GPIO LEDs) | Intermediate |
+| Configuration | Layer conf, Machine conf, Distro conf | Beginner - Advanced |
+
+### How Validation Works
+
+- Each exercise defines a list of regex-based validation rules
+- User writes code in the editor textarea, clicks "Validate Recipe"
+- Each rule is tested against the full text; pass/fail results are displayed
+- Hints are shown for failed checks; a reference solution is available
+- Completion state is saved to localStorage (`yocto-sandbox-completed`)
+
+### Technical Notes
+
+- No server-side execution — all validation is pure client-side regex matching
+- Tab key inserts 4 spaces (not focus change) for editor usability
+- Line numbers are rendered alongside the textarea and scroll-synced
+
+---
+
 ## Issues Encountered & Fixes
 
 ### 1. Blank page — BrowserRouter fails on non-root paths
