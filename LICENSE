@@ -26,10 +26,19 @@ Educational Content License
 ============================
 
 The educational content (lesson text, quiz questions, exercise descriptions,
-and diagrams) included in this application is licensed under the
-Creative Commons Attribution 4.0 International License (CC BY 4.0).
+and diagrams) included in this application is derived primarily from
+Bootlin's "Yocto Project and OpenEmbedded development course" training
+materials (https://bootlin.com/training/yocto/), which are licensed under
+the Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA 3.0).
 
-You are free to share and adapt the content, provided you give appropriate
-credit and indicate if changes were made.
+In compliance with the ShareAlike requirement, the educational content in
+this application is also licensed under CC BY-SA 3.0.
 
-Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+You are free to share and adapt the content under the following terms:
+  - Attribution: You must give appropriate credit to Bootlin as the original
+    author, provide a link to the license, and indicate if changes were made.
+  - ShareAlike: If you remix, transform, or build upon the material, you must
+    distribute your contributions under the same CC BY-SA 3.0 license.
+
+Original work: (c) 2004-2025 Bootlin (https://bootlin.com)
+Full license text: https://creativecommons.org/licenses/by-sa/3.0/legalcode

@@ -1631,6 +1631,27 @@ a {
   padding: 1.5rem;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-border-light);
+  margin-bottom: 1rem;
+}
+
+.about-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.about-primary-source {
+  border-left: 4px solid var(--color-primary);
+  background: rgba(74, 111, 165, 0.03);
+}
+
+.primary-source-detail > div:first-child {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.primary-source-detail a {
+  color: var(--color-primary);
+  text-decoration: underline;
 }
 
 .about-card p {

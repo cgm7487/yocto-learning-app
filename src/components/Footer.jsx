@@ -8,18 +8,32 @@ export default function Footer() {
           <span className="footer-brand">Yocto Learning</span>
           <span className="footer-sep">{'\u00B7'}</span>
           <span className="footer-note">
-            An open-source educational project. Not affiliated with the Yocto
-            Project or the Linux Foundation.
+            Content based on{' '}
+            <a
+              href="https://bootlin.com/training/yocto/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Bootlin training materials
+            </a>{' '}
+            (CC BY-SA 3.0)
           </span>
         </div>
         <nav className="footer-links">
           <Link to="/about">License &amp; References</Link>
           <a
+            href="https://bootlin.com/training/yocto/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Bootlin Training
+          </a>
+          <a
             href="https://docs.yoctoproject.org"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Official Yocto Docs
+            Yocto Docs
           </a>
         </nav>
       </div>

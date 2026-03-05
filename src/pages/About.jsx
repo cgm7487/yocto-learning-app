@@ -22,9 +22,30 @@ export default function About() {
           <div className="license-item">
             <h3>Educational Content</h3>
             <p>
-              Lesson text, quiz questions, and exercise descriptions are licensed under the{' '}
-              <strong>Creative Commons Attribution 4.0 International (CC BY 4.0)</strong>.
-              You may share and adapt the content with appropriate credit.
+              The educational content (lessons, quizzes, and exercises) is derived primarily
+              from{' '}
+              <a
+                href="https://bootlin.com/training/yocto/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Bootlin&apos;s &quot;Yocto Project and OpenEmbedded development course&quot;
+              </a>{' '}
+              training materials, which are licensed under{' '}
+              <strong>Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)</strong>.
+            </p>
+            <p>
+              In compliance with the ShareAlike requirement, the educational content in this
+              application is also licensed under{' '}
+              <a
+                href="https://creativecommons.org/licenses/by-sa/3.0/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                CC BY-SA 3.0
+              </a>
+              . You may share and adapt the content provided you give credit to Bootlin and
+              distribute derivative works under the same license.
             </p>
           </div>
         </div>
@@ -33,11 +54,50 @@ export default function About() {
       <section className="about-section">
         <h2>References &amp; Sources</h2>
         <p className="about-description">
-          The educational content in this application is based on and references the
-          following official sources. This project is not affiliated with or endorsed
-          by these organizations.
+          The educational content in this application is primarily derived from
+          Bootlin&apos;s training materials, supplemented by the official sources listed
+          below. This project is not affiliated with or endorsed by these organizations.
         </p>
+
+        <div className="about-card about-primary-source">
+          <h3>Primary Source</h3>
+          <div className="primary-source-detail">
+            <div>
+              <strong>Bootlin &mdash; Yocto Project and OpenEmbedded Development Course</strong>
+              <br />
+              <a
+                href="https://bootlin.com/training/yocto/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                bootlin.com/training/yocto
+              </a>
+              {' '}&middot;{' '}
+              <a
+                href="https://github.com/bootlin/training-materials"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub repository
+              </a>
+            </div>
+            <p>
+              The majority of the lesson content, concepts, examples, and exercises in this
+              application are based on Bootlin&apos;s freely available training materials.
+              Bootlin has been providing embedded Linux and kernel training since 2004.
+            </p>
+            <p>
+              <strong>License:</strong> CC BY-SA 3.0 &mdash;{' '}
+              <strong>Copyright &copy; 2004&ndash;2025 Bootlin</strong>
+              <br />
+              Changes were made to adapt the content into an interactive web application
+              format, including restructuring, rewording, and adding quizzes and exercises.
+            </p>
+          </div>
+        </div>
+
         <div className="about-card">
+          <h3>Additional References</h3>
           <table className="about-table">
             <thead>
               <tr>
@@ -54,28 +114,10 @@ export default function About() {
                   <span className="about-url">docs.yoctoproject.org</span>
                 </td>
                 <td>
-                  Core concepts, BitBake usage, recipe syntax, image creation,
+                  Official reference for BitBake usage, recipe syntax, image creation,
                   SDK, and licensing workflows
                 </td>
                 <td>CC BY-SA 2.0 UK</td>
-              </tr>
-              <tr>
-                <td>
-                  <strong>OpenEmbedded Documentation</strong>
-                  <br />
-                  <span className="about-url">openembedded.org</span>
-                </td>
-                <td>Layer system, class inheritance, recipe best practices</td>
-                <td>MIT</td>
-              </tr>
-              <tr>
-                <td>
-                  <strong>OpenEmbedded Layer Index</strong>
-                  <br />
-                  <span className="about-url">layers.openembedded.org</span>
-                </td>
-                <td>Layer discovery and compatibility information</td>
-                <td>MIT</td>
               </tr>
               <tr>
                 <td>
@@ -85,6 +127,15 @@ export default function About() {
                 </td>
                 <td>BitBake task execution, variable syntax, fetchers</td>
                 <td>CC BY-SA 2.0 UK</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>OpenEmbedded</strong>
+                  <br />
+                  <span className="about-url">openembedded.org / layers.openembedded.org</span>
+                </td>
+                <td>Layer system, class inheritance, layer index</td>
+                <td>MIT</td>
               </tr>
               <tr>
                 <td>
@@ -138,8 +189,8 @@ export default function About() {
         <div className="about-card">
           <p>
             This is an independent educational project. It is <strong>not</strong> officially
-            affiliated with, endorsed by, or sponsored by the Yocto Project, the Linux
-            Foundation, or OpenEmbedded.
+            affiliated with, endorsed by, or sponsored by Bootlin, the Yocto Project,
+            the Linux Foundation, or OpenEmbedded.
           </p>
           <p>
             The content is provided for learning purposes and may not reflect the most
