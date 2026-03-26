@@ -9,12 +9,17 @@ function MarkdownRenderer({ content }) {
   const renderMarkdown = (md) => {
     let html = md;
 
-    // Code blocks
+    // Extract code blocks into placeholders to protect them from further processing
+    const codeBlocks = [];
     html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
-      return `<pre><code class="lang-${lang}">${code
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')}</code></pre>`;
+      const placeholder = `\x00CODEBLOCK_${codeBlocks.length}\x00`;
+      codeBlocks.push(
+        `<pre><code class="lang-${lang}">${code
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')}</code></pre>`
+      );
+      return placeholder;
     });
 
     // Inline code
@@ -93,13 +98,19 @@ function MarkdownRenderer({ content }) {
           block.startsWith('<ul') ||
           block.startsWith('<ol') ||
           block.startsWith('<div') ||
-          block.startsWith('<table')
+          block.startsWith('<table') ||
+          block.startsWith('\x00CODEBLOCK_')
         ) {
           return block;
         }
         return `<p>${block}</p>`;
       })
       .join('\n');
+
+    // Restore code blocks from placeholders
+    codeBlocks.forEach((block, i) => {
+      html = html.replace(`\x00CODEBLOCK_${i}\x00`, block);
+    });
 
     return html;
   };
